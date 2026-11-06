@@ -107,7 +107,6 @@ const CONFIG = {
      type: "sticker"-> a small decorative chip
      rot            -> how crooked the card sits, in degrees   */
   scrapbook: [
-    { type: "photo",   src: "assets/images/photo-1.jpg", caption: "exhibit A: the birthday person", rot: -2.5 },
     { type: "note",    text: "Still the only person who replies with an actual answer instead of “k”.", by: "a verified review", rot: 1.5 },
     { type: "photo",   src: "assets/images/dance.gif",
       caption: "a dance for you. yes, it’s a chicken. yes, the moves are better than ours.", rot: 1.8 },
@@ -220,16 +219,7 @@ const CONFIG = {
 
   /* ---- SCRATCH CARD MESSAGES ------------------------------- */
   scratchCards: [
-    "You get one free pass to cancel plans this month. No reason required.",
-    "Coupon: one (1) unrequested compliment, redeemable at any time. Just ask.",
-    "Official decree: today, whatever you want for dinner is the correct choice.",
-    "This card entitles the bearer to be right in one argument of their choosing.",
-    "Congratulations — you have won absolutely nothing, delivered beautifully.",
-    "Prediction: something small and genuinely good happens to you this week.",
-    "You are legally allowed to brag about your birthday for the next 48 hours.",
-    "One guilt-free evening off. No emails, no readings, no catching up on anything. Non-negotiable.",
-    "Redeemable for one nap of unreasonable length, with zero commentary from anybody.",
-    "Redeemable for one long voice note where I pretend to listen. I will actually listen."
+    "Wishing you a year where the hard parts get easier and the good parts get louder."
   ],
 
   /* ---- MINI-GAME SETTINGS ---------------------------------- */
