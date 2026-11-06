@@ -138,7 +138,7 @@ const CONFIG = {
       "and since you are that kind of person…"
     ],
     signoff: "Sorry",
-    footnote: "The card had one job. I am just the delivery service."
+    footnote: "One more thing on your special day: I’m sorry for the way I handled things earlier. i hope you forgive me with all of your heart. Hope your year is full of good things."
   },
 
   /* ---- WISHES SHOWN AFTER BLOWING THE CANDLES -------------- */
