@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Day Made Just For You ♡</title>
+<meta name="description" content="A little corner of the internet made just for you — secret letters, a memory scrapbook, cake, and a surprise.">
+<meta name="theme-color" content="#FDEDEF">
+
+<!-- Favicon: a tiny heart, drawn inline so there are no broken requests -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23E79BB0' d='M16 28C8 22 3 17.5 3 12.2 3 8.2 6.1 5 10 5c2.4 0 4.6 1.2 6 3.2C17.4 6.2 19.6 5 22 5c3.9 0 7 3.2 7 7.2C29 17.5 24 22 16 28z'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<!-- `is-intro` hides the main experience until the gift box is opened. -->
+<body class="is-intro">
+
+<noscript>
+  <style>
+    .is-intro #experience { display: block !important; }
+    .is-intro #welcome, .player { display: none !important; }
+  </style>
+  <p class="noscript-note">This birthday adventure needs JavaScript switched on for the animations and surprises ♡</p>
+</noscript>
+
+<!-- Decorative layers (never interactive) -->
+<div class="ambient" id="ambient" aria-hidden="true"></div>
+<canvas class="confetti" id="confettiCanvas" aria-hidden="true"></canvas>
+
+
+<!-- ====================================================================
+     SECTION 1 — WELCOME SCREEN
+     Three stages, in order:
+       1. the cake      — candles are already lit; blow them out
+       2. the gift box  — only appears once the candles are out
+       3. the card      — the message, and the way into the site
+     `is-intro` keeps the page scroll-locked until stage 3 is done.
+     ==================================================================== -->
+<section class="welcome" id="welcome" aria-labelledby="welcomeTitle">
+  <div class="welcome__inner">
+
+    <!-- ---------- STAGE 1 — CANDLES ---------------------------------- -->
+    <div class="stage" id="stageCandles">
+
+      <div class="welcome__intro" id="welcomeIntro">
+        <p class="eyebrow">A Day Made Just For You &hearts;</p>
+        <h1 class="welcome__title" id="welcomeTitle">Hey Birthday Star!</h1>
+        <p class="welcome__sub" id="candleLede">Before anything else &mdash; these have been burning since midnight and the wax situation is getting serious.</p>
+      </div>
+
+      <button class="cake cake--intro is-lit" id="introCake" type="button" aria-describedby="candleHint">
+        <span class="sr-only">Blow out the candles</span>
+
+        <span class="cake__candles" aria-hidden="true">
+          <span class="candle"><span class="candle__flame"></span><span class="candle__wick"></span><span class="candle__smoke"></span></span>
+          <span class="candle"><span class="candle__flame"></span><span class="candle__wick"></span><span class="candle__smoke"></span></span>
+          <span class="candle"><span class="candle__flame"></span><span class="candle__wick"></span><span class="candle__smoke"></span></span>
+        </span>
+
+        <!-- The cake itself is artwork; the candles above it stay
+             CSS so they can flicker and be blown out one by one. -->
+        <img class="cake__img" src="assets/images/cake-body.png" alt="" aria-hidden="true">
+      </button>
+
+      <p class="cake__hint" id="candleHint">Tap the cake to blow them out</p>
+
+      <div class="cake__actions">
+        <button class="btn btn--primary" id="blowBtn" type="button">Blow them out 🎂</button>
+        <button class="btn btn--ghost btn--sm" id="micBtn" type="button" hidden>&hellip;or actually blow into your mic</button>
+      </div>
+
+      <p class="mic-note" id="micNote" aria-live="polite" hidden></p>
+    </div>
+
+    <!-- ---------- STAGE 2 — GIFT BOX --------------------------------- -->
+    <div class="stage stage--gift" id="stageGift" hidden>
+
+      <div class="welcome__intro" id="giftIntro">
+        <p class="eyebrow">Wish logged &hearts;</p>
+        <h2 class="welcome__title welcome__title--sm">Now the actual present.</h2>
+        <p class="welcome__sub">It has no postage, no wrapping paper and no physical form. It does, however, have animations.</p>
+      </div>
+
+      <!-- 3D gift box: pure CSS, five-sided body + a lid that lifts away -->
+      <div class="giftbox" id="giftbox">
+        <div class="giftbox__glow" aria-hidden="true"></div>
+        <div class="giftbox__scene" aria-hidden="true">
+
+          <div class="box">
+            <div class="box__face box__face--front"></div>
+            <div class="box__face box__face--back"></div>
+            <div class="box__face box__face--left"></div>
+            <div class="box__face box__face--right"></div>
+            <div class="box__inner"></div>
+            <div class="box__burst"></div>
+          </div>
+
+          <div class="lid">
+            <div class="lid__face lid__face--front"></div>
+            <div class="lid__face lid__face--back"></div>
+            <div class="lid__face lid__face--left"></div>
+            <div class="lid__face lid__face--right"></div>
+            <div class="lid__top"></div>
+
+            <div class="bow">
+              <span class="bow__loop bow__loop--l"></span>
+              <span class="bow__loop bow__loop--r"></span>
+              <span class="bow__tail bow__tail--l"></span>
+              <span class="bow__tail bow__tail--r"></span>
+              <span class="bow__knot"></span>
+            </div>
+          </div>
+
+        </div>
+        <div class="giftbox__shadow" aria-hidden="true"></div>
+      </div>
+
+      <button class="btn btn--primary btn--lg" id="openGift" type="button">Open Your Surprise ✨</button>
+    </div>
+
+    <!-- ---------- STAGE 3 — THE CARD --------------------------------- -->
+    <div class="welcome__card" id="welcomeCard" aria-live="polite" hidden>
+      <span class="welcome__card-ornament" aria-hidden="true">&hearts;</span>
+      <h2 class="welcome__card-title">Happy Birthday, <span data-friend-name>friend</span>!</h2>
+      <p class="welcome__card-text" id="welcomeText"></p>
+      <button class="btn btn--primary" id="enterBtn" type="button">Let&rsquo;s explore &hearts;</button>
+    </div>
+
+    <p class="scroll-cue" id="scrollCue" aria-hidden="true" hidden></p>
+  </div>
+</section>
+<!-- ====================================================================
+     NAVIGATION
+     ==================================================================== -->
+<header class="nav" id="siteNav">
+  <nav class="nav__inner" aria-label="Sections of your day">
+    <a class="nav__brand" href="#universe">A Day Made Just For You <span aria-hidden="true">♡</span></a>
+    <ul class="nav__list">
+      <li><a class="nav__link" href="#letters" data-nav="letters">Letters</a></li>
+      <li><a class="nav__link" href="#scrapbook" data-nav="scrapbook">Scrapbook</a></li>
+      <li><a class="nav__link" href="#sorry" data-nav="sorry">Sorry</a></li>
+      <li><a class="nav__link" href="#cake" data-nav="cake">Cake</a></li>
+      <li><a class="nav__link" href="#adventure" data-nav="adventure">Adventure</a></li>
+      <li><a class="nav__link" href="#finale" data-nav="finale">Surprise</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+<main id="experience">
+
+  <!-- ==================================================================
+       SECTION 2 — YOUR LITTLE UNIVERSE
+       ================================================================== -->
+  <section class="section section--universe" id="universe" aria-labelledby="universeTitle">
+    <div class="container">
+      <header class="section__head" data-reveal>
+        <p class="eyebrow">Choose your first stop</p>
+        <h2 class="section__title" id="universeTitle">Your Little Universe</h2>
+        <p class="section__lede">Four small worlds, each hiding something for you. Wander in any order &mdash; nothing here expires.</p>
+      </header>
+
+      <ul class="universe">
+        <li data-reveal>
+          <a class="world world--letters" href="#letters">
+            <span class="world__art" aria-hidden="true">
+              <span class="world__env"><span class="world__env-flap"></span></span>
+            </span>
+            <h3 class="world__title">Secret Letters</h3>
+            <p class="world__text">Sealed notes to open whenever your heart asks for one.</p>
+            <span class="world__go" aria-hidden="true">Open the drawer &rarr;</span>
+          </a>
+        </li>
+        <li data-reveal>
+          <a class="world world--scrapbook" href="#scrapbook">
+            <span class="world__art" aria-hidden="true">
+              <span class="world__polaroid world__polaroid--back"></span>
+              <span class="world__polaroid world__polaroid--front"></span>
+            </span>
+            <h3 class="world__title">Memory Scrapbook</h3>
+            <p class="world__text">Polaroids, tape and small notes from our corner of the internet.</p>
+            <span class="world__go" aria-hidden="true">Turn the pages &rarr;</span>
+          </a>
+        </li>
+        <li data-reveal>
+          <a class="world world--cake" href="#cake">
+            <span class="world__art" aria-hidden="true">
+              <span class="world__cake">
+                <span class="world__flame"></span>
+              </span>
+            </span>
+            <h3 class="world__title">Birthday Cake</h3>
+            <p class="world__text">Light the candles, close your eyes, make the wish properly.</p>
+            <span class="world__go" aria-hidden="true">Light it up &rarr;</span>
+          </a>
+        </li>
+        <li data-reveal>
+          <a class="world world--finale" href="#finale">
+            <span class="world__art" aria-hidden="true">
+              <span class="world__gift"><span class="world__gift-bow"></span></span>
+            </span>
+            <h3 class="world__title">Final Surprise</h3>
+            <p class="world__text">Save this one for last. It is the whole reason this page exists.</p>
+            <span class="world__go" aria-hidden="true">Only at the end &rarr;</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ==================================================================
+       SECTION 3 — SECRET LETTERS
+       ================================================================== -->
+  <section class="section section--letters" id="letters" aria-labelledby="lettersTitle">
+    <div class="container">
+      <header class="section__head" data-reveal>
+        <p class="eyebrow">Section one</p>
+        <h2 class="section__title" id="lettersTitle">Secret Letters</h2>
+        <p class="section__lede">Little envelopes for little moments. Open the one that matches your day &mdash; they stay here for whenever you come back.</p>
+      </header>
+
+      <!-- Envelopes are built from CONFIG.letters in script.js -->
+      <ul class="letters" id="lettersGrid"></ul>
+
+      <p class="letters__counter" aria-live="polite" id="lettersCounter"></p>
+    </div>
+  </section>
+
+
+  <!-- ==================================================================
+       SECTION 4 — DIGITAL MEMORY SCRAPBOOK
+       ================================================================== -->
+  <section class="section section--scrapbook" id="scrapbook" aria-labelledby="scrapbookTitle">
+    <div class="container">
+      <header class="section__head" data-reveal>
+        <p class="eyebrow">Section two</p>
+        <h2 class="section__title" id="scrapbookTitle">Memory Scrapbook</h2>
+        <p class="section__lede">Pinned, taped and slightly crooked &mdash; exactly how a real scrapbook should be. Tap a photo to see it bigger.</p>
+      </header>
+
+      <!-- Cards are built from CONFIG.scrapbook in script.js -->
+      <div class="scrapbook" id="scrapbookGrid"></div>
+    </div>
+  </section>
+
+
+  <!-- ==================================================================
+       SECTION 5 — THE SORRY CARD
+       Front and inside of a real card. Click it and it opens.
+       Text and image paths live in CONFIG.sorry in script.js.
+       ================================================================== -->
+  <section class="section section--sorry" id="sorry" aria-labelledby="sorryTitle">
+    <div class="container container--narrow">
+      <header class="section__head" data-reveal>
+        <p class="eyebrow">Section three</p>
+        <h2 class="section__title" id="sorryTitle">A Card That Says Sorry</h2>
+        <p class="section__lede">Some things don&rsquo;t fit in a scrapbook. This one came in a plastic sleeve &mdash; go on, open it.</p>
+      </header>
+
+      <!-- Built from CONFIG.sorry in script.js -->
+      <div class="sorry" id="sorryStage" data-reveal></div>
+    </div>
+  </section>
+
+
+  <!-- ==================================================================
+       SECTION 5 — VIRTUAL BIRTHDAY CAKE
+       ================================================================== -->
+  <section class="section section--cake" id="cake" aria-labelledby="cakeTitle">
+    <div class="container container--narrow">
+      <header class="section__head" data-reveal>
+        <p class="eyebrow">Section four</p>
+        <h2 class="section__title" id="cakeTitle">Your Birthday Cake</h2>
+        <p class="section__lede">No one else gets a slice until you have had yours.</p>
+      </header>
+
+      <div class="cake-stage" data-reveal>
+        <button class="cake" id="cakeFigure" type="button" aria-describedby="cakeHint">
+          <span class="sr-only">Light the candles on the cake</span>
+
+          <span class="cake__candles" aria-hidden="true">
+            <span class="candle"><span class="candle__flame"></span><span class="candle__wick"></span><span class="candle__smoke"></span></span>
+            <span class="candle"><span class="candle__flame"></span><span class="candle__wick"></span><span class="candle__smoke"></span></span>
+            <span class="candle"><span class="candle__flame"></span><span class="candle__wick"></span><span class="candle__smoke"></span></span>
+            <span class="candle"><span class="candle__flame"></span><span class="candle__wick"></span><span class="candle__smoke"></span></span>
+            <span class="candle"><span class="candle__flame"></span><span class="candle__wick"></span><span class="candle__smoke"></span></span>
+          </span>
+
+          <span class="cake__tier cake__tier--top" aria-hidden="true">
+            <span class="cake__drips">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </span>
+          </span>
+          <span class="cake__tier cake__tier--mid" aria-hidden="true">
+            <span class="cake__drips">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </span>
+            <span class="cake__dots"></span>
+          </span>
+          <span class="cake__tier cake__tier--base" aria-hidden="true">
+            <span class="cake__drips">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </span>
+            <span class="cake__dots"></span>
+          </span>
+          <span class="cake__plate" aria-hidden="true"></span>
+        </button>
+
+        <p class="cake__hint" id="cakeHint">Tap the cake to light the candles</p>
+
+        <div class="cake__actions">
+          <button class="btn btn--primary" id="wishBtn" type="button" disabled>Make a Wish</button>
+          <button class="btn btn--ghost" id="relightBtn" type="button" hidden>Light them again</button>
+        </div>
+
+        <p class="cake__wish" id="wishMessage" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================================================================
+       SECTION 6 — MINI BIRTHDAY ADVENTURE
+       ================================================================== -->
+  <section class="section section--adventure" id="adventure" aria-labelledby="adventureTitle">
+    <div class="container">
+      <header class="section__head" data-reveal>
+        <p class="eyebrow">Section five</p>
+        <h2 class="section__title" id="adventureTitle">Mini Birthday Adventure</h2>
+        <p class="section__lede">Five small things to play with. All of them actually work &mdash; go on, test them. One of them should not be touched.</p>
+      </header>
+
+      <div class="adventure">
+
+        <!-- Quiz -->
+        <article class="card card--quiz" data-reveal aria-labelledby="quizHeading">
+          <p class="card__kicker">Game one</p>
+          <h3 class="card__title" id="quizHeading">The Birthday Quiz</h3>
+
+          <div class="quiz" id="quizCard">
+            <p class="quiz__progress" id="quizProgress"></p>
+            <p class="quiz__question" id="quizQuestion"></p>
+            <ul class="quiz__options" id="quizOptions"></ul>
+            <p class="quiz__feedback" id="quizFeedback" aria-live="polite"></p>
+          </div>
+
+          <div class="quiz__result" id="quizResult" hidden>
+            <p class="quiz__score" id="quizScore"></p>
+            <p class="quiz__verdict" id="quizVerdict"></p>
+            <button class="btn btn--ghost" id="quizRetry" type="button">Play again</button>
+          </div>
+        </article>
+
+        <!-- Compliment generator -->
+        <article class="card card--compliment" data-reveal aria-labelledby="complimentHeading">
+          <p class="card__kicker">Game two</p>
+          <h3 class="card__title" id="complimentHeading">Compliment Machine</h3>
+          <blockquote class="compliment">
+            <span class="compliment__mark" aria-hidden="true">&ldquo;</span>
+            <p class="compliment__text" id="complimentText" aria-live="polite">Press the button. It only tells the truth.</p>
+          </blockquote>
+          <button class="btn btn--primary btn--sm" id="complimentBtn" type="button">Tell me something nice ♡</button>
+        </article>
+
+        <!-- Scratch card -->
+        <article class="card card--scratch" data-reveal aria-labelledby="scratchHeading">
+          <p class="card__kicker">Game three</p>
+          <h3 class="card__title" id="scratchHeading">Surprise Scratch Card</h3>
+
+          <div class="scratch" id="scratchWrap">
+            <p class="scratch__message" id="scratchMessage"></p>
+            <canvas class="scratch__canvas" id="scratchCanvas" role="img" aria-label="A scratch card hiding a message"></canvas>
+          </div>
+
+          <p class="scratch__hint" id="scratchHint" aria-live="polite">Scratch with your finger or mouse</p>
+          <div class="card__row">
+            <button class="btn btn--ghost btn--sm" id="scratchReveal" type="button">Reveal it for me</button>
+            <button class="btn btn--primary btn--sm" id="scratchNew" type="button">New card</button>
+          </div>
+        </article>
+
+        <!-- Mini-game -->
+        <article class="card card--game" data-reveal aria-labelledby="gameHeading">
+          <p class="card__kicker">Game four</p>
+          <h3 class="card__title" id="gameHeading">Catch the Falling Hearts</h3>
+
+          <div class="game">
+            <div class="game__hud">
+              <span>Caught <b id="gameScore">0</b></span>
+              <span>Time <b id="gameTime">30</b>s</span>
+              <span>Best <b id="gameBest">0</b></span>
+            </div>
+            <div class="game__frame">
+              <canvas id="gameCanvas" tabindex="0" aria-label="Move the basket to catch falling hearts. Use the left and right arrow keys, or drag."></canvas>
+              <div class="game__overlay" id="gameOverlay">
+                <p class="game__overlay-text" id="gameOverlayText">Catch <b data-game-target></b> hearts in 30 seconds.</p>
+                <button class="btn btn--primary btn--sm" id="gameStart" type="button">Start</button>
+              </div>
+            </div>
+            <p class="game__note">Drag with your finger, move the mouse, or use &larr; &rarr;</p>
+          </div>
+        </article>
+
+        <!-- The forbidden button -->
+        <article class="card card--forbidden" data-reveal aria-labelledby="forbiddenHeading">
+          <p class="card__kicker">Game five</p>
+          <h3 class="card__title" id="forbiddenHeading">Do Not Press This</h3>
+
+          <div class="forbidden" id="forbiddenZone">
+            <button class="forbidden__btn" id="forbiddenBtn" type="button">Do not press</button>
+            <p class="forbidden__status" id="forbiddenStatus" aria-live="polite">Seriously. Leave it.</p>
+          </div>
+
+          <div class="loader" id="forbiddenLoader" hidden>
+            <div class="loader__track"><div class="loader__fill" id="forbiddenFill"></div></div>
+            <p class="loader__label" id="forbiddenLabel">
+              <span id="forbiddenStep"></span> <span class="loader__pct" id="forbiddenPct">0%</span>
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================================================================
+       SECTION 7 — FINAL SURPRISE
+       ================================================================== -->
+  <section class="section section--finale" id="finale" aria-labelledby="finaleTitle">
+    <div class="finale__sky" id="finaleSky" aria-hidden="true"></div>
+
+    <div class="container container--narrow">
+      <header class="section__head section__head--light" data-reveal>
+        <p class="eyebrow eyebrow--light">The last stop</p>
+        <h2 class="section__title" id="finaleTitle">One Final Surprise</h2>
+        <p class="section__lede">You made it to the end, which means you now have to read the bit I spent the longest on.</p>
+      </header>
+
+      <!-- Closed state: a sealed envelope you click -->
+      <div class="finale__gift" id="finaleGift">
+        <button class="sealed" id="finaleOpen" type="button">
+          <span class="sealed__env" aria-hidden="true">
+            <span class="sealed__flap"></span>
+            <span class="sealed__pocket"></span>
+            <span class="sealed__wax">♡</span>
+          </span>
+          <span class="sealed__label">Open your last gift</span>
+        </button>
+      </div>
+
+      <!-- Opened state: the letter (filled from CONFIG.finale) -->
+      <article class="final-letter" id="finaleLetter" hidden aria-live="polite">
+        <p class="final-letter__to">To <span data-friend-name>friend</span>,</p>
+        <div class="final-letter__body" id="finaleBody"></div>
+        <p class="final-letter__close" id="finaleClosing"></p>
+        <p class="final-letter__sign" id="finaleSign"></p>
+
+        <!-- The dedicated song. Hidden entirely if CONFIG.finale.song is removed. -->
+        <section class="dedication" id="dedication" aria-labelledby="dedicationHeading" hidden>
+          <p class="dedication__kicker" id="dedicationHeading">And one more thing &mdash; a song for you</p>
+
+          <!-- Streaming embed. Used instead of the record when
+               CONFIG.finale.song.embed is set. -->
+          <div class="dedication__embed" id="dedicationEmbed" hidden></div>
+
+          <div class="dedication__row" id="dedicationRow">
+            <button class="dedication__disc" id="dedicationPlay" type="button" aria-pressed="false">
+              <span class="sr-only" id="dedicationLabel">Play the song</span>
+              <span class="dedication__vinyl" aria-hidden="true"><span class="dedication__hole"></span></span>
+              <svg class="dedication__ico dedication__ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5l10 6.5-10 6.5z" fill="currentColor"/></svg>
+              <svg class="dedication__ico dedication__ico--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.5h3.5v13H8.5zM13 5.5h3.5v13H13z" fill="currentColor"/></svg>
+            </button>
+
+            <div class="dedication__meta">
+              <p class="dedication__title" id="dedicationTitle"></p>
+              <p class="dedication__artist" id="dedicationArtist"></p>
+            </div>
+          </div>
+
+          <p class="dedication__note" id="dedicationNote"></p>
+          <p class="dedication__missing" id="dedicationMissing" hidden></p>
+        </section>
+
+        <div class="final-letter__actions">
+          <button class="btn btn--primary btn--sm" id="finaleHearts" type="button">Send some hearts back ♡</button>
+          <button class="btn btn--ghost btn--sm" id="replayBtn" type="button">Start the day over</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <p class="footer__line">Built with an unreasonable number of CSS animations, from one corner of the internet to another.</p>
+    <p class="footer__sign" data-your-name></p>
+  </footer>
+
+</main>
+
+
+<!-- ====================================================================
+     MODAL — used for letters and the photo lightbox
+     ==================================================================== -->
+<div class="modal" id="modal" hidden>
+  <div class="modal__backdrop" data-modal-close></div>
+  <div class="modal__panel" id="modalPanel" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+    <button class="modal__close" id="modalClose" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <div class="modal__body" id="modalBody"></div>
+  </div>
+</div>
+
+
+<!-- ====================================================================
+     ACHIEVEMENTS — floating tray button + the unlock toasts
+     ==================================================================== -->
+<button class="trophy" id="trophyBtn" type="button" aria-label="Show your achievements">
+  <span aria-hidden="true">🏆</span>
+  <span class="trophy__count" id="trophyCount" hidden>0</span>
+</button>
+
+<div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+
+<!-- ====================================================================
+     MUSIC PLAYER (floating). Never autoplays.
+     ==================================================================== -->
+<div class="player" id="musicPlayer">
+
+  <!-- Live lyrics. Only appears when the current song has any. -->
+  <div class="lyrics" id="lyricsPane" hidden>
+    <div class="lyrics__head">
+      <p class="lyrics__title" id="lyricsTitle"></p>
+      <button class="lyrics__close" id="lyricsClose" type="button" aria-label="Hide the lyrics">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="1.9" fill="none" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <ol class="lyrics__list" id="lyricsList" aria-live="off"></ol>
+  </div>
+
+  <div class="player__panel" id="musicPanel" hidden>
+    <p class="player__title" id="musicTitle">Birthday song</p>
+    <p class="player__count" id="musicCount" hidden></p>
+    <input class="player__range player__seek" id="seek" type="range" min="0" max="100" step="0.1" value="0" aria-label="Seek through the song">
+    <p class="player__time"><span id="musicTime">0:00</span> <span aria-hidden="true">/</span> <span id="musicDur">0:00</span></p>
+    <label class="player__vol">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h3l4-3v12l-4-3H4zM15.5 9.5a3.5 3.5 0 010 5M18 7a7 7 0 010 10" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <input class="player__range" id="volume" type="range" min="0" max="100" value="55" aria-label="Volume">
+    </label>
+    <p class="player__note" id="musicNote" hidden></p>
+  </div>
+
+  <div class="player__bar">
+    <button class="player__skip" id="musicPrev" type="button" aria-label="Previous song" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 6v12L8 12zM7 6v12" stroke="currentColor" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="player__disc" id="musicToggle" type="button" aria-pressed="false" aria-label="Play the birthday song">
+      <svg class="player__ico player__ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5l11 6.5-11 6.5z" fill="currentColor"/></svg>
+      <svg class="player__ico player__ico--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.5h3v13h-3zM12.5 5.5h3v13h-3z" fill="currentColor"/></svg>
+    </button>
+    <button class="player__skip" id="musicNext" type="button" aria-label="Next song" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 6v12L16 12zM17 6v12" stroke="currentColor" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="player__skip player__lyrics" id="lyricsToggle" type="button" aria-expanded="false" aria-controls="lyricsPane" aria-label="Show the lyrics" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5h11M5 11h14M5 15.5h9M5 20h12" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+    </button>
+    <button class="player__expand" id="musicExpand" type="button" aria-expanded="false" aria-controls="musicPanel" aria-label="Show music controls">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V7.5l9-2V16M9 18a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM18 16a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Songs live in assets/music/ and are listed in CONFIG.music.tracks (script.js).
+     No `loop` attribute: the playlist wraps around in JS instead, so a single
+     song still repeats but two or more advance to the next one. -->
+<audio id="bgm" preload="metadata"></audio>
+
+<!-- Optional. Written by lyrics-timer.html; harmless if it is not there. -->
+<script src="lyrics.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+/* ===================================================================
+   LIVE LYRICS
+   -------------------------------------------------------------------
+   Written by lyrics-timer.html — but you can also edit it by hand.
+
+   The shape is: one entry per song, keyed by the audio FILENAME
+   exactly as it appears in assets/music/. Each line is the moment it
+   starts (seconds) and the words. A line with empty text shows as
+   "• • •" and marks an instrumental gap.
+
+       window.LYRICS = {
+         "my-song.mp3": [
+           { t:  12.40, text: "the first line"  },
+           { t:  16.10, text: "the second line" },
+           { t:  19.80, text: ""                },
+           { t:  24.00, text: "back in again"   }
+         ]
+       };
+
+   The lyrics button in the player only appears for songs listed
+   here, so an empty file simply means no lyrics yet — nothing
+   breaks.
+
+   -------------------------------------------------------------------
+   TO ADD "You're Never Fully Dressed Without A Smile":
+
+     1. Open lyrics-timer.html in this folder (through the local
+        server, not by double-clicking, so it can load the mp3).
+     2. Paste the song's lines into the box, one per line.
+     3. Press play and tap the spacebar as each line begins.
+     4. Press "Download lyrics.js" and let it replace this file.
+
+   Those four steps take about as long as the song does. The words
+   themselves are under copyright, so they are not shipped here —
+   type or paste them in yourself at step 2.
+   =================================================================== */
+
+window.LYRICS = {
+
+  /* Uncomment and fill in — the key must match the filename in
+     assets/music/ exactly, punctuation and spaces included.
+
+  "Annie OST(2014) - You're Never Fully Dressed Without A Smile(2014 Film Version).mp3": [
+    { t: 0.00, text: "" }
+  ],
+
+  */
+
+};

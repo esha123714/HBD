@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lyrics Timer — birthday site</title>
+<style>
+  :root {
+    --cream: #FFFBF7; --blush: #FDEFF2; --blush-deep: #F8DCE4;
+    --pink: #F3C3D1; --pink-deep: #E79BB0; --rose: #C56F8A;
+    --plum: #6B4E71; --ink: #4C3A45; --ink-soft: #8A7681;
+    --paper: #FFFCF8; --ok: #4E8A6B;
+    --sans: "Quicksand", "Segoe UI", system-ui, sans-serif;
+    --serif: "Cormorant Garamond", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 28px 20px 60px;
+    font-family: var(--sans); color: var(--ink);
+    background: var(--blush);
+    line-height: 1.6;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+  h1 { font-family: var(--serif); font-size: 2.1rem; color: var(--plum); margin: 0 0 6px; }
+  .lede { margin: 0 0 24px; color: var(--ink-soft); }
+
+  .card {
+    background: var(--paper); border: 1px solid #fff;
+    border-radius: 20px; padding: 22px; margin-bottom: 18px;
+    box-shadow: 0 12px 32px rgba(107,78,113,.10);
+  }
+  h2 { font-size: .72rem; font-weight: 700; letter-spacing: .18em;
+       text-transform: uppercase; color: var(--pink-deep); margin: 0 0 14px; }
+
+  textarea {
+    width: 100%; min-height: 170px; padding: 14px;
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .86rem;
+    line-height: 1.7; color: var(--ink);
+    border: 1.5px solid var(--blush-deep); border-radius: 12px;
+    background: var(--cream); resize: vertical;
+  }
+  textarea:focus { outline: 2px solid var(--pink-deep); outline-offset: 1px; }
+
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 14px; }
+
+  button {
+    font: inherit; font-weight: 600; cursor: pointer;
+    padding: 11px 22px; border: 0; border-radius: 999px;
+    background: var(--pink-deep); color: #fff;
+    box-shadow: 0 8px 20px rgba(231,155,176,.4);
+  }
+  button:hover { transform: translateY(-1px); }
+  button.ghost {
+    background: #fff; color: var(--plum);
+    border: 1.5px solid var(--blush-deep); box-shadow: none;
+  }
+  button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+  audio { width: 100%; margin-top: 6px; }
+  input[type=file] { font-size: .86rem; }
+
+  /* the tapping stage */
+  .stage { display: none; }
+  .stage.on { display: block; }
+
+  .now {
+    font-family: var(--serif); font-size: 1.9rem; line-height: 1.25;
+    color: var(--rose); min-height: 2.4em; margin: 0 0 4px;
+    display: flex; align-items: center;
+  }
+  .next { color: var(--ink-soft); font-size: 1.02rem; min-height: 1.6em; margin: 0; }
+
+  .meter { display: flex; gap: 18px; margin: 16px 0 0; font-size: .82rem; color: var(--ink-soft); }
+  .meter b { color: var(--plum); font-size: 1.05rem; }
+
+  .hint {
+    margin: 16px 0 0; padding: 12px 14px;
+    background: var(--blush); border-radius: 10px;
+    font-size: .88rem; color: var(--ink-soft);
+  }
+  kbd {
+    font-family: inherit; font-weight: 700; font-size: .82rem;
+    padding: 2px 9px; border-radius: 6px;
+    background: #fff; border: 1px solid var(--blush-deep);
+    color: var(--plum);
+  }
+
+  #out { min-height: 220px; }
+  .done { color: var(--ok); font-weight: 600; }
+  ol { padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  code { background: var(--blush-deep); padding: 1px 6px; border-radius: 5px;
+         font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .9em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Lyrics Timer</h1>
+  <p class="lede">
+    Turns plain lyrics into the timed format the birthday site reads. Paste the
+    words, play the song, tap the spacebar as each line starts. Nothing is
+    uploaded anywhere &mdash; this runs entirely in your browser.
+  </p>
+
+  <div class="card">
+    <h2>Step 1 &mdash; the song</h2>
+    <input type="file" id="file" accept="audio/*">
+    <audio id="audio" controls></audio>
+    <p class="hint">
+      Pick the mp3 from <code>assets/music/</code>. Use the player to find where
+      the singing starts, then pause and rewind a little before you begin.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Step 2 &mdash; the words</h2>
+    <textarea id="src" spellcheck="false" placeholder="One lyric line per line.
+
+Blank lines become instrumental gaps.
+Section headings like [Verse 1] are ignored."></textarea>
+    <div class="row">
+      <button id="start">Start tapping</button>
+      <span id="count" style="color:var(--ink-soft);font-size:.86rem"></span>
+    </div>
+  </div>
+
+  <div class="card stage" id="stage">
+    <h2>Step 3 &mdash; tap along</h2>
+    <p class="now" id="now"></p>
+    <p class="next" id="next"></p>
+
+    <div class="meter">
+      <span>Line <b id="idx">0</b> / <b id="total">0</b></span>
+      <span>Time <b id="clock">0:00</b></span>
+    </div>
+
+    <div class="row">
+      <button id="tap">Tap (space)</button>
+      <button class="ghost" id="undo">Undo last</button>
+      <button class="ghost" id="stop">Finish</button>
+    </div>
+
+    <p class="hint">
+      Tap <kbd>space</kbd> the instant each line <em>begins</em>. Got one wrong?
+      <kbd>Backspace</kbd> undoes it and rewinds a little. Don't worry about
+      being perfect &mdash; you can nudge the numbers by hand afterwards.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Step 4 &mdash; save it</h2>
+    <textarea id="out" spellcheck="false" readonly placeholder="Your timed lyrics appear here."></textarea>
+    <div class="row">
+      <button id="download">Download lyrics.js</button>
+      <button class="ghost" id="copy">Copy the text instead</button>
+      <span id="copied" class="done"></span>
+    </div>
+    <p class="hint">
+      <b>Download</b> gives you a file called <code>lyrics.js</code>. Put it in the
+      same folder as <code>index.html</code>, next to <code>script.js</code>.
+      That is the whole job &mdash; the site picks it up on its own and nothing
+      else needs editing.
+      <br><br>
+      Timing more than one song? Download each, then paste the inner lines
+      together into a single <code>lyrics.js</code>.
+    </p>
+  </div>
+
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const audio = $("#audio");
+
+let lines = [];     // the words, in order
+let stamps = [];    // seconds, one per tapped line
+let i = 0;
+let running = false;
+
+$("#file").addEventListener("change", (e) => {
+  const f = e.target.files[0];
+  if (f) audio.src = URL.createObjectURL(f);
+});
+
+function readLines() {
+  return $("#src").value
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    // drop section headings like [Verse 1] / [Chorus]
+    .filter((l, idx, arr) => !/^\[[^\]]+\]$/.test(l))
+    // collapse runs of blank lines into a single gap
+    .filter((l, idx, arr) => l !== "" || (arr[idx - 1] || "") !== "");
+}
+
+$("#src").addEventListener("input", () => {
+  const n = readLines().filter((l) => l !== "").length;
+  $("#count").textContent = n ? n + " lines ready" : "";
+});
+
+function paint() {
+  $("#now").textContent  = lines[i] === "" ? "• • •  (instrumental)" : (lines[i] || "— done —");
+  $("#next").textContent = i + 1 < lines.length
+    ? "next: " + (lines[i + 1] === "" ? "• • • (instrumental)" : lines[i + 1])
+    : "";
+  $("#idx").textContent = i;
+  $("#total").textContent = lines.length;
+}
+
+function fmt(sec) {
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  const c = Math.floor((sec % 1) * 100);
+  return m + ":" + String(s).padStart(2, "0") + "." + String(c).padStart(2, "0");
+}
+function lrcTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  const c = Math.floor((sec % 1) * 100);
+  return "[" + String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0") +
+         "." + String(c).padStart(2, "0") + "]";
+}
+
+setInterval(() => { $("#clock").textContent = fmt(audio.currentTime || 0); }, 100);
+
+$("#start").addEventListener("click", () => {
+  lines = readLines();
+  if (!lines.length) { alert("Paste the lyrics first."); return; }
+  stamps = []; i = 0; running = true;
+  $("#stage").classList.add("on");
+  paint();
+  $("#stage").scrollIntoView({ behavior: "smooth", block: "center" });
+  if (audio.paused && audio.src) audio.play().catch(() => {});
+});
+
+function tap() {
+  if (!running || i >= lines.length) return;
+  stamps[i] = audio.currentTime;
+  i++;
+  paint();
+  build();
+  if (i >= lines.length) finish();
+}
+
+function undo() {
+  if (!running || i === 0) return;
+  i--;
+  const back = stamps[i];
+  stamps.length = i;
+  paint();
+  build();
+  if (isFinite(back)) audio.currentTime = Math.max(0, back - 1.5);
+}
+
+function finish() {
+  running = false;
+  build();
+  $("#out").scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function build() {
+  let out = "";
+  for (let k = 0; k < stamps.length; k++) {
+    out += lrcTime(stamps[k]) + (lines[k] || "") + "\n";
+  }
+  $("#out").value = out;
+}
+
+$("#tap").addEventListener("click", tap);
+$("#undo").addEventListener("click", undo);
+$("#stop").addEventListener("click", finish);
+
+document.addEventListener("keydown", (e) => {
+  if (e.target.tagName === "TEXTAREA" || e.target.tagName === "INPUT") return;
+  if (e.code === "Space") { e.preventDefault(); tap(); }
+  if (e.code === "Backspace") { e.preventDefault(); undo(); }
+});
+
+function audioFilename() {
+  const f = $("#file").files[0];
+  return f ? f.name : "your-song.mp3";
+}
+
+function fileContents() {
+  const name = audioFilename();
+  // JSON.stringify handles the quoting and the newlines for us
+  return "/* Timed lyrics for the birthday site.\n" +
+         "   Generated by lyrics-timer.html. Keep this file next to index.html.\n" +
+         "   The key is the audio filename, exactly as it sits in assets/music/. */\n" +
+         "window.LYRICS = {\n" +
+         "  " + JSON.stringify(name) + ": " + JSON.stringify($("#out").value) + "\n" +
+         "};\n";
+}
+
+$("#download").addEventListener("click", () => {
+  if (!$("#out").value) { alert("Tap through the lyrics first."); return; }
+  const blob = new Blob([fileContents()], { type: "text/javascript" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "lyrics.js";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  $("#copied").textContent = "Saved. Put it next to index.html.";
+  setTimeout(() => { $("#copied").textContent = ""; }, 4000);
+});
+
+$("#copy").addEventListener("click", async () => {
+  const t = $("#out").value;
+  if (!t) return;
+  try {
+    await navigator.clipboard.writeText(t);
+    $("#copied").textContent = "Copied.";
+  } catch (err) {
+    $("#out").removeAttribute("readonly");
+    $("#out").select();
+    $("#copied").textContent = "Press Ctrl+C.";
+  }
+  setTimeout(() => { $("#copied").textContent = ""; }, 2500);
+});
+</script>
+</body>
+</html>
