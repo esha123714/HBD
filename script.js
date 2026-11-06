@@ -5,308 +5,9 @@
    Below that is the machinery that drives the page.
    =================================================================== */
 
-const CONFIG = {
-
-  /* ---- WHO IT IS FOR -------------------------------------- */
-  friendName: "you",
-  yourName:   "me",
-
-  /* ---- THE OPENING SEQUENCE -------------------------------
-     The site opens on a lit cake. Blow the candles out (tap,
-     press the button, or actually blow into the mic) and only
-     then does the gift box turn up.                          */
-  intro: {
-    lede: "Before anything else — these have been burning since midnight and the wax situation is getting serious.",
-    nudges: [
-      "Tap the cake to blow them out",
-      "Go on. One good breath.",
-      "The wax is winning. Any time now.",
-      "I will wait. I am a website. I have nothing else on."
-    ],
-    blownText: "Make a wish. Do not tell me what it is — I will only judge it.",
-    micSuccess: "I heard that. Genuinely impressive lung capacity.",
-    micDenied:  "No mic then. Button it is — equally valid, less dramatic.",
-    micListening: "Listening… blow at your screen like a maniac."
-  },
-
-  /* ---- THE CARD AT THE END OF THE INTRO -------------------- */
-  welcomeText: "This is the whole thing: a small corner of the internet that exists only because it is your birthday. Letters, a wall of nonsense, cake, and something at the end. Take it in any order you like.",
-
-  /* ---- SECRET LETTERS -------------------------------------- */
-  letters: [
-    {
-      label: "Open when you need a smile",
-      title: "A completely scientific list of good things",
-      body: [
-        "Fact one: somewhere right now, a dog is being told it is a good boy, and it fully believes it.",
-        "Fact two: someone on the other side of the world built a whole website because it was your birthday. That is a genuinely weird thing to have happen to you, and it happened.",
-        "Fact three: you have survived every single Monday so far. Undefeated. Frankly an incredible record.",
-        "That is the whole letter. It was never going to be deep. Go have a snack."
-      ],
-      sign: "filed under: objectively true"
-    },
-    {
-      label: "Open when you’re feeling down",
-      title: "Permission slip",
-      body: [
-        "This is not a pep talk. Pep talks on bad days are annoying, and we both know it.",
-        "So instead: consider this official permission to have an unproductive day. Close the tabs. Eat something warm. Reply to nobody. The world keeps spinning without your input, which is rude of it, but also convenient.",
-        "The only thing I will say is that bad days are famously bad at predicting the future. They are confident, but wrong — like a weather app.",
-        "Come back tomorrow. This page will still be here. It does not get tired."
-      ],
-      sign: "signed, management"
-    },
-    {
-      label: "Open when you need motivation",
-      title: "In case you need a push",
-      body: [
-        "Here is the trick nobody tells you: you do not need to feel ready. Feeling ready is a bonus feature, not a requirement. Most things get done by people who were mildly unsure and started anyway.",
-        "Also, the version of the thing you are avoiding is almost certainly worse in your head than it is on paper. Your brain is a drama queen with a very good special effects budget.",
-        "So: pick the smallest possible first step. Embarrassingly small. Insultingly small. Do that one. The rest tends to follow out of sheer momentum.",
-        "And if it goes badly — excellent, now you have a story."
-      ],
-      sign: "go on then"
-    },
-    {
-      label: "Open when you want to remember how special you are",
-      title: "The evidence",
-      body: [
-        "I am not going to get sappy on you, so let us do this with evidence instead.",
-        "You are the kind of person who actually answers the question that was asked. You remember things people mentioned once. You make group chats better by being in them. These sound like small things. They are not — most people cannot do any of them.",
-        "You are also funny on purpose, which is much harder than being funny by accident.",
-        "That is the evidence. The conclusion writes itself. Case closed."
-      ],
-      sign: "the prosecution rests"
-    },
-    {
-      label: "Open when you’re running on empty",
-      title: "For the one doing two things at once",
-      body: [
-        "An internship and a degree at the same time is two full-time things wearing one coat and pretending to be a normal schedule. Everyone nods at this like it is reasonable. It is not reasonable.",
-        "Nobody claps for this part, either. There is no ceremony for answering a work message during a lecture break, or for opening the laptop again at night when the sensible move was sleep. It just gets quietly done. Every day. By you.",
-        "So let it be said once, plainly, by a website: it is being noticed. The tiredness is not a character flaw or a sign you are doing it wrong. It is a receipt.",
-        "You are not behind. You are carrying two loads at the pace most people manage one, and the fact that you still turn up as yourself while doing it is the genuinely impressive part. Put one load down today. The deadlines will survive your absence — they are famously resilient."
-      ],
-      sign: "no advice this time, just noticed"
-    },
-    {
-      label: "Open when it’s 2am and you’re bored",
-      title: "Hello, insomniac",
-      body: [
-        "Nothing important happens at 2am, which is exactly why it is the best time of day. No emails. No decisions. Just you and a screen and increasingly strange thoughts.",
-        "Since you are here: honey never spoils, octopuses have three hearts, and bananas are mildly radioactive. You now know three things you did not need. You are welcome.",
-        "Go to sleep eventually. Not immediately. Eventually."
-      ],
-      sign: "same, honestly"
-    }
-  ],
-
-  /* ---- THE WALL -------------------------------------------
-     type: "photo"  -> assets/images/<src>, placeholder until added
-     type: "note"   -> a handwritten note card; `by` is optional
-     type: "sticker"-> a small decorative chip
-     rot            -> how crooked the card sits, in degrees   */
-  scrapbook: [
-    { type: "note",    text: "Still the only person who replies with an actual answer instead of “k”.", by: "a verified review", rot: 1.5 },
-    { type: "photo",   src: "assets/images/dance.gif",
-      caption: "a dance for you. yes, it’s a chicken. yes, the moves are better than ours.", rot: 1.8 },
-    { type: "sticker", big: "100%", label: "certified good egg", rot: -3 },
-    { type: "photo",   src: "assets/images/boom.gif",
-      caption: "caught mid-main-character-moment", rot: -1.6 },
-    { type: "note",    text: "Great taste. Suspiciously great taste. Who taught you?", by: "an ongoing investigation", rot: -2.4 },
-    { type: "note",
-      text: "May this year give you less to juggle, and everything you’ve worked for in return.<br><br>You’ve earned a day off from being impressive. Happy birthday. 🎂",
-      rot: -1.9 },
-    { type: "sticker", big: "A+", label: "vibes assessment", rot: 2.6 },
-    { type: "photo",   src: "assets/images/birthday.gif", caption: "happy birthday, you menace", rot: 2.4 }
-  ],
-
-  /* ---- THE SORRY CARD -------------------------------------
-     Two photos of one real card: its front, and its inside.  */
-  sorry: {
-    front:  "assets/images/sorry-front.jpg",
-    inside: "assets/images/sorry-inside.jpg",
-    frontAlt:  "The front of a heart-shaped card reading “To Say I’m Sorry”.",
-    insideAlt: "The inside of the card, with its printed message and the word Sorry.",
-    hint: "tap to open it",
-    teaser: "It came sealed in plastic, which felt a bit cowardly. There is something printed inside it.",
-    message: [
-      "There are also certain people",
-      "who can make our world brighter,",
-      "who simply with a word of smile",
-      "can make a heart feel lighter,",
-      "and since you are that kind of person…"
-    ],
-    signoff: "Sorry",
-    footnote: "One more thing on your special day: I’m sorry for the way I handled things earlier. i hope you forgive me with all of your heart. Hope your year is full of good things."
-  },
-
-  /* ---- WISHES SHOWN AFTER BLOWING THE CANDLES -------------- */
-  wishes: [
-    "Wish registered. Processing time: unclear. Success rate: historically excellent.",
-    "That one has been forwarded to the universe. It read the message. No reply yet, but it read it.",
-    "Noted, stamped and filed. May this year be weirdly, suspiciously good to you.",
-    "Logged. Filed with a note attached: fewer 7am alarms, and at least one weekend that is actually a weekend.",
-    "Done. Here’s to a year of small wins, good food and absolutely no unnecessary meetings."
-  ],
-
-  /* ---- THE QUIZ -------------------------------------------
-     `answer` is the index of the correct option (0-based).   */
-  quiz: [
-    {
-      q: "What is the correct way to eat birthday cake?",
-      options: ["Fork, like a civilised adult", "Hands. Obviously.", "Straight from the tray at 1am", "All three, in that order"],
-      answer: 3,
-      right: "Correct. The only acceptable answer.",
-      wrong: "Bold, but no. The answer was all three, in that order."
-    },
-    {
-      q: "How many hours do you think went into this website?",
-      options: ["Two, max", "An unreasonable number", "It was a template", "Nobody will ever know"],
-      answer: 1,
-      right: "Yes. And I would do it again. Probably.",
-      wrong: "Generous of you. It was an unreasonable number."
-    },
-    {
-      q: "What is the official birthday policy on responsibilities today?",
-      options: ["Suspended", "Postponed", "Delegated", "Ignored with confidence"],
-      answer: 0,
-      right: "Suspended. Fully. There is paperwork.",
-      wrong: "Close enough, but officially: suspended."
-    },
-    {
-      q: "How many things is the birthday person currently juggling?",
-      options: ["One, comfortably", "A degree and an internship, at the same time", "Two, badly", "Nobody is counting"],
-      answer: 1,
-      right: "Correct. A degree and an internship, simultaneously, on purpose — and still found time to click through a birthday website.",
-      wrong: "A degree and an internship. At the same time. On purpose. And still turned up here."
-    },
-    {
-      q: "The best birthday gift is…",
-      options: ["Cash, let’s be honest", "Food", "Something handmade and slightly unhinged", "Attention"],
-      answer: 2,
-      right: "Correct, and conveniently also what you are currently looking at.",
-      wrong: "Valid, but the answer was the handmade slightly unhinged option. See: this page."
-    },
-    {
-      q: "What happens when you finish this quiz?",
-      options: ["Nothing", "Confetti", "A compliment you did not ask for", "You still have three more games"],
-      answer: 3,
-      right: "Correct. You absolutely do. Keep going.",
-      wrong: "Wrong — you have three more games. Sorry."
-    }
-  ],
-
-  /* ---- COMPLIMENT MACHINE ---------------------------------- */
-  compliments: [
-    "You reply to messages like a person who has read them. Rare. Possibly extinct elsewhere.",
-    "Your taste is so consistently good it is mildly intimidating. Keep doing that.",
-    "You are funny on purpose, which is significantly harder than being funny by accident.",
-    "If being decent to people were a sport, you would be quietly dominating the league table.",
-    "You make group chats better simply by existing in them. That is a measurable effect.",
-    "You have the energy of someone who would absolutely help a stranger find their lost dog.",
-    "Statistically speaking, you are in the top 1% of people I have never met in person.",
-    "You remember things people only mentioned once. Slightly unsettling. Mostly very nice.",
-    "You give good advice and then actually follow up on it. Who raised you? Excellent work from them.",
-    "Nobody has ever had to explain a joke to you twice. That is a flex and you should use it.",
-    "You are the human equivalent of a notification you are actually happy to see.",
-    "You are running an internship and a degree at once and still reply like a functioning human being. Most people manage one of those badly.",
-    "Tired and still kind is a much harder trick than rested and kind. You keep doing the hard version.",
-    "You show up to the thing on days when it would be entirely reasonable not to. That is the whole skill. Everything else is decoration.",
-    "Somewhere your weekly schedule is written down, and I am fairly sure it is illegal in several countries.",
-    "Somehow you make being responsible look fun. That should not be possible."
-  ],
-
-  /* ---- SCRATCH CARD MESSAGES ------------------------------- */
-  scratchCards: [
-    "Wishing you a year where the hard parts get easier and the good parts get louder."
-  ],
-
-  /* ---- MINI-GAME SETTINGS ---------------------------------- */
-  game: {
-    target:   18,   // hearts needed to win
-    seconds:  30,   // round length
-    winText:  "You win. Reflexes: confirmed excellent. Go collect your cake.",
-    loseText: "Not quite. The hearts were moving fast and you have had a big day. Try again?"
-  },
-
-  /* ---- THE FORBIDDEN BUTTON -------------------------------
-     It dodges the cursor `dodges` times, getting more worried
-     each time, then gives up and lets itself be pressed.     */
-  forbidden: {
-    dodges: 6,
-    taunts: [
-      "Seriously. Leave it.",
-      "No.",
-      "I said no.",
-      "This is the one thing I asked.",
-      "You are not going to stop, are you.",
-      "Fine. FINE. Press it."
-    ],
-    steps: [
-      "Locating confetti…",
-      "Waking the hearts…",
-      "Overthinking the colour palette…",
-      "Pretending this took effort…",
-      "Done."
-    ],
-    payoff: "That was it. That was the whole secret. Happy birthday."
-  },
-
-  /* ---- ACHIEVEMENTS ---------------------------------------- */
-  achievements: [
-    { id: "blown",     icon: "🎂", name: "Candles out",     desc: "Blew out the candles." },
-    { id: "unwrapped", icon: "🎁", name: "Unwrapped",       desc: "Opened the gift box." },
-    { id: "letter",    icon: "✉️", name: "Dear reader",     desc: "Opened a secret letter." },
-    { id: "quiz",      icon: "🧠", name: "Quiz survivor",   desc: "Finished the quiz." },
-    { id: "scratch",   icon: "🎟️", name: "Scratcher",       desc: "Scratched a card." },
-    { id: "game",      icon: "💘", name: "Quick hands",     desc: "Won the heart game." },
-    { id: "forbidden", icon: "🚫", name: "Told you",        desc: "Pressed the forbidden button." },
-    { id: "finale",    icon: "⭐", name: "The whole thing", desc: "Reached the final surprise." }
-  ],
-
-  /* ---- THE FINAL LETTER ------------------------------------ */
-  finale: {
-    paragraphs: [
-      "Right. You made it to the end, which means you clicked through all of it, which means my unreasonable plan worked.",
-      "Here is the honest version: I could not get you a cake, I could not show up at your door, and posting a GIF in a chat felt like the bare minimum. So I built the only kind of gift I am actually any good at — one made of too many CSS animations and some jokes.",
-      "You are one of the genuinely good parts of being online. You make the internet feel a bit less like a vending machine of bad news and a bit more like a place where people are nice to each other for no particular reason.",
-      "And since it has been a year of doing two hard things at once — the internship, the studies, the days where both wanted the same hours — it should be said somewhere permanent: that takes something. Most people would have dropped one by now. You have not, and you have somehow stayed good company throughout, which is the part nobody has the energy for.",
-      "So: have an excellent birthday. Eat the good thing. Ignore the boring obligations. Be insufferable about it — you have earned the right for at least one day, and frankly for several more than that."
-    ],
-    closingLine: "Distance means nothing when someone makes your world a little brighter.",
-    sign: "happy birthday, genuinely — your friend from the internet",
-
-    /* The dedicated song joins the end of the playlist. Its timed
-       lyrics live in lyrics.js, written by lyrics-timer.html. */
-    song: {
-      title:  "You're Never Fully Dressed Without A Smile",
-      artist: "Annie (2014 film)",
-      src:    "assets/music/Annie OST(2014) - You're Never Fully Dressed Without A Smile(2014 Film Version).mp3",
-      note: "I went back and forth on this for an embarrassingly long time, and then landed on this one. It is yours now. Play it loud, play it on a bad day, play it in the shower — I do not get a say in it any more."
-    }
-  },
-
-  /* ---- MUSIC ----------------------------------------------- */
-  music: {
-    volume: 0.55,
-    /* Starts itself on the first real click of the site — the
-       candle blow — because browsers will not allow it sooner. */
-    autoplay: true,
-    /* Open the lyrics by themselves when a song that has them
-       starts. Closing the panel keeps it closed for that song. */
-    showLyrics: true,
-    tracks: [
-      {
-        title: "Si Te La Encuentras Por Ahí",
-        src:   "assets/music/Feid - Si Te La Encuentras Por Ahí.mp3",
-        /* The first minute is instrumental, so it starts a minute
-           in — every time, loops included. 0 plays from the top. */
-        startAt: 60
-      }
-    ]
-  }
-};
+/* The words live in i18n.js. It defines CONFIG (the content in the
+   chosen language), UI (the fixed labels in index.html), TXT (strings
+   this file builds at runtime) and fmt() for {placeholders}. */
 
 
 /* ============================================================
@@ -336,6 +37,91 @@ function formatTime(sec) {
   const s = Math.floor(sec % 60);
   return m + ":" + String(s).padStart(2, "0");
 }
+
+/* ============================================================
+   LANGUAGE — paint the fixed labels, wire the ES/EN switch
+   ============================================================ */
+const SKIP_KEY = "birthday-skip-intro";
+const POS_KEY  = "birthday-last-section";
+
+/* Every bit of text that sits in index.html rather than in CONFIG.
+   Runs first, before any section reads an element back. */
+function applyStaticI18n() {
+  document.documentElement.lang = LANG;
+  if (UI.pageTitle) document.title = UI.pageTitle;
+
+  $$("[data-i18n]").forEach((el) => {
+    const v = UI[el.getAttribute("data-i18n")];
+    if (v != null) el.textContent = v;
+  });
+  $$("[data-i18n-html]").forEach((el) => {
+    const v = UI[el.getAttribute("data-i18n-html")];
+    if (v != null) el.innerHTML = v;
+  });
+  $$("[data-i18n-aria]").forEach((el) => {
+    const v = UI[el.getAttribute("data-i18n-aria")];
+    if (v != null) el.setAttribute("aria-label", v);
+  });
+  /* The two lines that carry the birthday person's name. */
+  $$("[data-i18n-name]").forEach((el) => {
+    const v = UI[el.getAttribute("data-i18n-name")];
+    if (v != null) el.textContent = fmt(v, { name: CONFIG.friendName });
+  });
+}
+
+/* The whole page is built from CONFIG once, and the canvases, timers and
+   audio are wired once. Reloading is the honest way to change language -
+   so remember where they were and put them back after the reload. */
+function initLang() {
+  $$(".lang__btn").forEach((btn) => {
+    const code = btn.getAttribute("data-lang");
+    const on = code === LANG;
+    btn.classList.toggle("is-on", on);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+
+    btn.addEventListener("click", () => {
+      if (code === LANG) return;
+      try {
+        localStorage.setItem(LANG_KEY, code);
+        if (!document.body.classList.contains("is-intro")) {
+          sessionStorage.setItem(SKIP_KEY, "1");
+          sessionStorage.setItem(POS_KEY, currentSectionId());
+        }
+      } catch (err) { /* blocked storage - the reload still works */ }
+      location.reload();
+    });
+  });
+}
+
+function currentSectionId() {
+  const secs = $$("main .section");
+  let best = "", bestTop = Infinity;
+  secs.forEach((sec) => {
+    const top = Math.abs(sec.getBoundingClientRect().top);
+    if (top < bestTop) { bestTop = top; best = sec.id || ""; }
+  });
+  return best;
+}
+
+/* Came back from a language switch? Skip the candles and the gift box. */
+function resumeAfterLang() {
+  let skip = false, where = "";
+  try {
+    skip = sessionStorage.getItem(SKIP_KEY) === "1";
+    where = sessionStorage.getItem(POS_KEY) || "";
+    sessionStorage.removeItem(SKIP_KEY);
+    sessionStorage.removeItem(POS_KEY);
+  } catch (err) { return; }
+  if (!skip) return;
+
+  document.body.classList.remove("is-intro");
+  const welcome = $("#welcome");
+  if (welcome) welcome.classList.add("is-done");
+
+  const target = where && $("#" + where);
+  if (target) target.scrollIntoView({ behavior: "auto" });
+}
+
 
 function fillNames() {
   $$("[data-friend-name]").forEach((el) => { el.textContent = CONFIG.friendName; });
@@ -616,7 +402,7 @@ function initWelcome() {
       setTimeout(() => cake.classList.remove("is-pop"), 700);
     }, reducedMotion() ? 0 : 380);
 
-    if (hint) hint.textContent = CONFIG.intro.blownText || "Make a wish.";
+    if (hint) hint.textContent = CONFIG.intro.blownText || TXT.makeWish;
     if (micNote && viaMic) {
       micNote.hidden = false;
       micNote.textContent = CONFIG.intro.micSuccess || "";
@@ -654,7 +440,7 @@ function initWelcome() {
     micBtn.addEventListener("click", () => {
       if (micNote) {
         micNote.hidden = false;
-        micNote.textContent = CONFIG.intro.micListening || "Listening…";
+        micNote.textContent = CONFIG.intro.micListening || TXT.listening;
       }
       micBtn.disabled = true;
       Mic.start(
@@ -800,6 +586,8 @@ const Modal = (() => {
    ============================================================ */
 function boot() {
   const steps = [
+    ["i18n",        applyStaticI18n],
+    ["lang",        initLang],
     ["names",       fillNames],
     ["welcome",     initWelcome],
     ["nav",         initNavAndReveal],
@@ -816,7 +604,8 @@ function boot() {
     ["music",       initMusic],
     ["dedication",  initDedication],
     ["lyrics",      initLyrics],
-    ["trophies",    initTrophies]
+    ["trophies",    initTrophies],
+    ["resume",      resumeAfterLang]
   ];
 
   steps.forEach(([name, fn]) => {
@@ -849,8 +638,8 @@ function initLetters() {
     if (!counter) return;
     const total = CONFIG.letters.length;
     counter.textContent = read.size
-      ? read.size + " of " + total + " opened"
-      : "All " + total + " still sealed.";
+      ? fmt(TXT.lettersOpened, { n: read.size, total: total })
+      : fmt(TXT.lettersSealed, { total: total });
   }
 
   CONFIG.letters.forEach((letter, i) => {
@@ -1145,7 +934,7 @@ function initSorry() {
     );
     const box = $("#modalBody");
     $("h2", box).textContent = alt;
-    $("p",  box).textContent = open ? (data.signoff || "") : "To say I'm sorry";
+    $("p",  box).textContent = open ? (data.signoff || "") : TXT.sorryClosed;
     const big = $("img", box);
     big.src = src;
     big.alt = alt;
@@ -1175,9 +964,9 @@ function initCake() {
     if (relight) relight.hidden = lit || !wished;
     if (hint) {
       hint.textContent = lit
-        ? "Candles lit. Make the wish."
-        : (wished ? "Wish made. Light them again if you like."
-                  : "Tap the cake to light the candles");
+        ? TXT.candlesLit
+        : (wished ? TXT.wishMade
+                  : TXT.cakeHintTap);
     }
   }
 
@@ -1199,7 +988,7 @@ function initCake() {
 
     if (msg) {
       msg.hidden = false;
-      msg.textContent = pick(CONFIG.wishes || ["Wish registered."]);
+      msg.textContent = pick(CONFIG.wishes || [TXT.wishRegistered]);
     }
     Confetti.fromEl(cake, { count: 80, power: 700, shapes: ["heart", "circle"] });
   }
@@ -1235,7 +1024,7 @@ function initQuiz() {
     if (!item) return finish();
 
     locked = false;
-    if (prog) prog.textContent = "Question " + (at + 1) + " of " + quiz.length;
+    if (prog) prog.textContent = fmt(TXT.questionOf, { a: at + 1, b: quiz.length });
     qEl.textContent = item.q;
     if (fbEl) fbEl.textContent = "";
     optsEl.innerHTML = "";
@@ -1276,10 +1065,10 @@ function initQuiz() {
     if (scoreEl) scoreEl.textContent = score + " out of " + quiz.length;
     if (verdict) {
       verdict.textContent = score === quiz.length
-        ? "Perfect. Suspicious, even. Were you taking notes?"
+        ? TXT.quizPerfect
         : (score >= quiz.length - 2
-            ? "Respectable. You clearly pay attention."
-            : "The scoring was never the point. Have some cake.");
+            ? TXT.quizGood
+            : TXT.quizMeh);
     }
     Achievements.unlock("quiz");
     if (result) Confetti.fromEl(result, { count: 70, power: 620 });
@@ -1346,11 +1135,18 @@ function initScratchCard() {
   const ctx = canvas.getContext("2d");
   let drawing = false;
   let done = false;
+  /* The adventure section is display:none during the intro, so the very
+     first measurement is 0x0 and the cover never covers anything. Track
+     whether it has been drawn at a real size, and whether it has been
+     scratched, so it can be redrawn once without wiping someone's work. */
+  let sized = false;
+  let touched = false;
 
   function newCard() {
     done = false;
-    msgEl.textContent = pick(CONFIG.scratchCards || ["Happy birthday."]);
-    if (hint) hint.textContent = "Scratch with your finger or mouse";
+    touched = false;
+    msgEl.textContent = pick(CONFIG.scratchCards || [TXT.happyBirthday]);
+    if (hint) hint.textContent = TXT.scratchHint;
 
     const r = wrap.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
@@ -1371,9 +1167,10 @@ function initScratchCard() {
     ctx.fillStyle = "rgba(255,255,255,.55)";
     ctx.font = "600 15px Quicksand, system-ui, sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("scratch here", r.width / 2, r.height / 2);
+    ctx.fillText(TXT.scratchHere, r.width / 2, r.height / 2);
 
     canvas.style.opacity = "1";
+    sized = r.width > 0 && r.height > 0;
   }
 
   function pointAt(e) {
@@ -1383,6 +1180,7 @@ function initScratchCard() {
 
   function scratch(e) {
     if (done) return;
+    touched = true;
     const p = pointAt(e);
     ctx.globalCompositeOperation = "destination-out";
     ctx.beginPath();
@@ -1415,7 +1213,7 @@ function initScratchCard() {
   function check() {
     if (done) return;
     if (clearedRatio() > 0.55) {
-      finishCard("There it is.");
+      finishCard(TXT.thereItIs);
       Confetti.fromEl(wrap, { count: 50, power: 520 });
     }
   }
@@ -1429,14 +1227,29 @@ function initScratchCard() {
   });
   canvas.addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
 
-  if (revealBtn) revealBtn.addEventListener("click", () => finishCard("Fine, no scratching. There it is."));
+  if (revealBtn) revealBtn.addEventListener("click", () => finishCard(TXT.fineThereItIs));
   if (newBtn) newBtn.addEventListener("click", () => {
     canvas.style.transition = "none";
     newCard();
   });
 
   newCard();
-  window.addEventListener("resize", () => { if (!done) newCard(); });
+
+  /* Redraw when the box first gains a real size (the intro ending), and on
+     a genuine resize - but never over a card already being scratched. */
+  function resizeCard() {
+    const r = wrap.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    if (done || touched) return;
+    if (sized && Math.abs(r.width - canvas.offsetWidth) < 1) return;
+    canvas.style.transition = "none";
+    newCard();
+  }
+
+  if (typeof ResizeObserver !== "undefined") {
+    new ResizeObserver(resizeCard).observe(wrap);
+  }
+  window.addEventListener("resize", resizeCard);
 }
 
 
@@ -1574,8 +1387,8 @@ function initCatchGame() {
       if (bestEl) bestEl.textContent = String(best);
     }
     if (overlay) overlay.hidden = false;
-    if (overTxt) overTxt.textContent = won ? (G.winText || "You win.") : (G.loseText || "Not quite.");
-    if (startBt) startBt.textContent = "Play again";
+    if (overTxt) overTxt.textContent = won ? (G.winText || TXT.youWin) : (G.loseText || TXT.notQuite);
+    if (startBt) startBt.textContent = TXT.playAgain;
     if (won) {
       Achievements.unlock("game");
       Confetti.fromEl(canvas, { count: 90, power: 700, shapes: ["heart"] });
@@ -1654,7 +1467,7 @@ function initForbidden() {
     const total = Math.max(1, steps.length);
     (function next() {
       if (i >= total) {
-        if (status) status.textContent = F.payoff || "Happy birthday.";
+        if (status) status.textContent = F.payoff || TXT.happyBirthday;
         if (loader) loader.hidden = true;
         Achievements.unlock("forbidden");
         Confetti.fromEl(btn, { count: 140, power: 900, size: 13 });
@@ -1762,7 +1575,7 @@ function initFinale() {
   if (heartsBtn) {
     heartsBtn.addEventListener("click", () => {
       Confetti.fromEl(heartsBtn, { count: 80, power: 820, size: 14, shapes: ["heart"] });
-      heartsBtn.textContent = "Sent ♥ (again?)";
+      heartsBtn.textContent = TXT.sentAgain;
     });
   }
   if (replayBtn) {
@@ -1797,7 +1610,7 @@ function initMusic() {
 
   const tracks = (Array.isArray(M.tracks) && M.tracks.length)
     ? M.tracks.slice()
-    : (M.src ? [{ title: M.title || "Birthday song", src: M.src }] : []);
+    : (M.src ? [{ title: M.title || TXT.birthdaySong, src: M.src }] : []);
 
   /* The dedicated song from the final surprise rides along at the
      end of the playlist, so next/previous can reach it too. */
@@ -1834,13 +1647,12 @@ function initMusic() {
     player && player.classList.remove("is-playing");
     toggle.setAttribute("aria-pressed", "false");
     toggle.disabled = true;
-    if (titleEl) titleEl.textContent = "No song added yet";
+    if (titleEl) titleEl.textContent = TXT.noSongYet;
     if (countEl) countEl.hidden = true;
     if (prevBtn) prevBtn.hidden = true;
     if (nextBtn) nextBtn.hidden = true;
     if (note) {
-      note.innerHTML = "Drop your mp3s into <code>assets/music/</code> and list them in " +
-                       "<code>CONFIG.music.tracks</code> in <code>script.js</code>.";
+      note.innerHTML = TXT.dropMp3s;
     }
   }
 
@@ -1848,7 +1660,7 @@ function initMusic() {
     const playing = !audio.paused;
     if (player) player.classList.toggle("is-playing", playing);
     toggle.setAttribute("aria-pressed", playing ? "true" : "false");
-    toggle.setAttribute("aria-label", playing ? "Pause the music" : "Play the music");
+    toggle.setAttribute("aria-label", playing ? TXT.pauseMusic : TXT.playMusic);
     if (titleEl) titleEl.textContent = (tracks[current] && tracks[current].title) || "";
     if (countEl) {
       countEl.hidden = tracks.length < 2;
@@ -2071,10 +1883,7 @@ function initLyrics() {
     if (!lines.length) {
       const p = document.createElement("p");
       p.className = "lyrics__empty";
-      p.innerHTML = "No words for this song yet. Open " +
-                    "<code>lyrics-timer.html</code>, paste the lines in and tap " +
-                    "the spacebar along with the song &mdash; it writes " +
-                    "<code>lyrics.js</code> for you and they show up here, in time.";
+      p.innerHTML = TXT.noLyrics;
       list.appendChild(p);
       return;
     }
@@ -2181,7 +1990,7 @@ function initDedication() {
   const noteEl   = $("#dedicationNote");
   const missEl   = $("#dedicationMissing");
 
-  if (titleEl)  titleEl.textContent  = song.title || "A song for you";
+  if (titleEl)  titleEl.textContent  = song.title || TXT.aSongForYou;
   if (artistEl) { artistEl.textContent = song.artist || ""; artistEl.hidden = !song.artist; }
   if (noteEl)   { noteEl.textContent = song.note || ""; noteEl.hidden = !song.note; }
   card.hidden = false;
@@ -2197,14 +2006,13 @@ function initDedication() {
     }
     if (labelEl) {
       labelEl.textContent = gone
-        ? "The song file has not been added yet"
-        : (playing ? "Pause the song" : "Play the song");
+        ? TXT.songMissing
+        : (playing ? TXT.pauseSong : TXT.playSong);
     }
     if (missEl) {
       missEl.hidden = !gone;
       if (gone) {
-        missEl.innerHTML = "The file is not there yet — drop it in as <code>" +
-                           escapeHtml(song.src) + "</code> and it will play from here.";
+        missEl.innerHTML = fmt(TXT.fileNotThere, { src: escapeHtml(song.src) });
       }
     }
   }
@@ -2237,7 +2045,7 @@ function initTrophies() {
     const list = CONFIG.achievements || [];
     Modal.open(
       '<div class="trophies">' +
-        '<h2 class="trophies__title" id="modalTitle">What you have found</h2>' +
+        '<h2 class="trophies__title" id="modalTitle">' + escapeHtml(UI.trophiesTitle) + '</h2>' +
         '<div class="trophies__list"></div>' +
         '<p class="trophies__score"></p>' +
       '</div>'
@@ -2255,14 +2063,14 @@ function initTrophies() {
                       '<div><p class="trophies__name"></p>' +
                       '<p class="trophies__desc"></p></div>';
       $(".trophies__icon", row).textContent = has ? a.icon : "\u{1F512}";
-      $(".trophies__name", row).textContent = has ? a.name : "Still locked";
-      $(".trophies__desc", row).textContent = has ? a.desc : "Keep poking around.";
+      $(".trophies__name", row).textContent = has ? a.name : TXT.stillLocked;
+      $(".trophies__desc", row).textContent = has ? a.desc : TXT.keepPoking;
       host.appendChild(row);
     });
 
     const score = $(".trophies__score", box);
     score.textContent = got === list.length
-      ? "All of them. Nothing left hidden."
-      : got + " of " + list.length + " found so far.";
+      ? TXT.allFound
+      : fmt(TXT.foundSoFar, { a: got, b: list.length });
   });
 }

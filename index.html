@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A Day Made Just For You ♡</title>
-<meta name="description" content="A little corner of the internet made just for you — secret letters, a memory scrapbook, cake, and a surprise.">
+<title data-i18n="pageTitle">Un Día Hecho Solo Para Ti ♡</title>
+<meta name="description" content="Un rinconcito de internet hecho solo para ti — cartas secretas, recuerdos, torta y una sorpresa.">
 <meta name="theme-color" content="#FDEDEF">
 
 <!-- Favicon: a tiny heart, drawn inline so there are no broken requests -->
@@ -24,7 +24,7 @@
     .is-intro #experience { display: block !important; }
     .is-intro #welcome, .player { display: none !important; }
   </style>
-  <p class="noscript-note">This birthday adventure needs JavaScript switched on for the animations and surprises ♡</p>
+  <p class="noscript-note" data-i18n="noscript">Esta aventura de cumpleaños necesita JavaScript activado para las animaciones y las sorpresas ♡</p>
 </noscript>
 
 <!-- Decorative layers (never interactive) -->
@@ -47,8 +47,8 @@
     <div class="stage" id="stageCandles">
 
       <div class="welcome__intro" id="welcomeIntro">
-        <p class="eyebrow">A Day Made Just For You &hearts;</p>
-        <h1 class="welcome__title" id="welcomeTitle">Hey Birthday Star!</h1>
+        <p class="eyebrow" data-i18n="introEyebrow">Un Día Hecho Solo Para Ti &hearts;</p>
+        <h1 class="welcome__title" id="welcomeTitle" data-i18n="welcomeTitle">¡Hola, Jesús cumpleañero!</h1>
         <p class="welcome__sub" id="candleLede">Before anything else &mdash; these have been burning since midnight and the wax situation is getting serious.</p>
       </div>
 
@@ -66,11 +66,11 @@
         <img class="cake__img" src="assets/images/cake-body.png" alt="" aria-hidden="true">
       </button>
 
-      <p class="cake__hint" id="candleHint">Tap the cake to blow them out</p>
+      <p class="cake__hint" id="candleHint" data-i18n="candleHint">Dale un toque a la torta para apagarlas</p>
 
       <div class="cake__actions">
-        <button class="btn btn--primary" id="blowBtn" type="button">Blow them out 🎂</button>
-        <button class="btn btn--ghost btn--sm" id="micBtn" type="button" hidden>&hellip;or actually blow into your mic</button>
+        <button class="btn btn--primary" id="blowBtn" type="button" data-i18n="blowBtn">Apágalas 🎂</button>
+        <button class="btn btn--ghost btn--sm" id="micBtn" type="button" hidden data-i18n="micBtn">&hellip;o sopla de verdad en tu micrófono</button>
       </div>
 
       <p class="mic-note" id="micNote" aria-live="polite" hidden></p>
@@ -80,9 +80,9 @@
     <div class="stage stage--gift" id="stageGift" hidden>
 
       <div class="welcome__intro" id="giftIntro">
-        <p class="eyebrow">Wish logged &hearts;</p>
-        <h2 class="welcome__title welcome__title--sm">Now the actual present.</h2>
-        <p class="welcome__sub">It has no postage, no wrapping paper and no physical form. It does, however, have animations.</p>
+        <p class="eyebrow" data-i18n="giftEyebrow">Deseo registrado &hearts;</p>
+        <h2 class="welcome__title welcome__title--sm" data-i18n="giftTitle">Ahora sí, el regalo.</h2>
+        <p class="welcome__sub" data-i18n="giftSub">No tiene estampilla, ni papel de regalo, ni forma física. Eso sí, tiene animaciones.</p>
       </div>
 
       <!-- 3D gift box: pure CSS, five-sided body + a lid that lifts away -->
@@ -119,15 +119,15 @@
         <div class="giftbox__shadow" aria-hidden="true"></div>
       </div>
 
-      <button class="btn btn--primary btn--lg" id="openGift" type="button">Open Your Surprise ✨</button>
+      <button class="btn btn--primary btn--lg" id="openGift" type="button" data-i18n="openGift">Abre tu sorpresa ✨</button>
     </div>
 
     <!-- ---------- STAGE 3 — THE CARD --------------------------------- -->
     <div class="welcome__card" id="welcomeCard" aria-live="polite" hidden>
       <span class="welcome__card-ornament" aria-hidden="true">&hearts;</span>
-      <h2 class="welcome__card-title">Happy Birthday, <span data-friend-name>friend</span>!</h2>
+      <h2 class="welcome__card-title" data-i18n-name="welcomeCardTitle">¡Feliz cumpleaños!</h2>
       <p class="welcome__card-text" id="welcomeText"></p>
-      <button class="btn btn--primary" id="enterBtn" type="button">Let&rsquo;s explore &hearts;</button>
+      <button class="btn btn--primary" id="enterBtn" type="button" data-i18n="enterBtn">Vamos a explorar &hearts;</button>
     </div>
 
     <p class="scroll-cue" id="scrollCue" aria-hidden="true" hidden></p>
@@ -137,16 +137,23 @@
      NAVIGATION
      ==================================================================== -->
 <header class="nav" id="siteNav">
-  <nav class="nav__inner" aria-label="Sections of your day">
-    <a class="nav__brand" href="#universe">A Day Made Just For You <span aria-hidden="true">♡</span></a>
+  <nav class="nav__inner" data-i18n-aria="navAria" aria-label="Secciones de tu día">
+    <a class="nav__brand" href="#universe"><span data-i18n="navBrand">Un Día Hecho Solo Para Ti</span> <span aria-hidden="true">♡</span></a>
     <ul class="nav__list">
-      <li><a class="nav__link" href="#letters" data-nav="letters">Letters</a></li>
-      <li><a class="nav__link" href="#scrapbook" data-nav="scrapbook">Scrapbook</a></li>
-      <li><a class="nav__link" href="#sorry" data-nav="sorry">Sorry</a></li>
-      <li><a class="nav__link" href="#cake" data-nav="cake">Cake</a></li>
-      <li><a class="nav__link" href="#adventure" data-nav="adventure">Adventure</a></li>
-      <li><a class="nav__link" href="#finale" data-nav="finale">Surprise</a></li>
+      <li><a class="nav__link" href="#letters" data-nav="letters" data-i18n="navLetters">Cartas</a></li>
+      <li><a class="nav__link" href="#scrapbook" data-nav="scrapbook" data-i18n="navScrapbook">Para Ti</a></li>
+      <li><a class="nav__link" href="#sorry" data-nav="sorry" data-i18n="navSorry">Perdón</a></li>
+      <li><a class="nav__link" href="#cake" data-nav="cake" data-i18n="navCake">Torta</a></li>
+      <li><a class="nav__link" href="#adventure" data-nav="adventure" data-i18n="navAdventure">Aventura</a></li>
+      <li><a class="nav__link" href="#finale" data-nav="finale" data-i18n="navSurprise">Sorpresa</a></li>
     </ul>
+
+    <div class="nav__lang">
+      <div class="lang" role="group" data-i18n-aria="langAria" aria-label="Cambiar idioma">
+        <button class="lang__btn" type="button" data-lang="es">ES</button>
+        <button class="lang__btn" type="button" data-lang="en">EN</button>
+      </div>
+    </div>
   </nav>
 </header>
 
@@ -159,9 +166,9 @@
   <section class="section section--universe" id="universe" aria-labelledby="universeTitle">
     <div class="container">
       <header class="section__head" data-reveal>
-        <p class="eyebrow">Choose your first stop</p>
-        <h2 class="section__title" id="universeTitle">Your Little Universe</h2>
-        <p class="section__lede">Four small worlds, each hiding something for you. Wander in any order &mdash; nothing here expires.</p>
+        <p class="eyebrow" data-i18n="universeEyebrow">Escoge tu primera parada</p>
+        <h2 class="section__title" id="universeTitle" data-i18n="universeTitle">Tu Pequeño Universo</h2>
+        <p class="section__lede" data-i18n="universeLede">Cuatro mundos pequeños, cada uno escondiendo algo para ti. Recórrelos en el orden que quieras &mdash; aquí nada se vence.</p>
       </header>
 
       <ul class="universe">
@@ -170,9 +177,9 @@
             <span class="world__art" aria-hidden="true">
               <span class="world__env"><span class="world__env-flap"></span></span>
             </span>
-            <h3 class="world__title">Secret Letters</h3>
-            <p class="world__text">Sealed notes to open whenever your heart asks for one.</p>
-            <span class="world__go" aria-hidden="true">Open the drawer &rarr;</span>
+            <h3 class="world__title" data-i18n="worldLettersTitle">Cartas Secretas</h3>
+            <p class="world__text" data-i18n="worldLettersText">Notas selladas para abrir cuando el corazón te lo pida.</p>
+            <span class="world__go" aria-hidden="true" data-i18n="worldLettersGo">Abre la gaveta &rarr;</span>
           </a>
         </li>
         <li data-reveal>
@@ -181,9 +188,9 @@
               <span class="world__polaroid world__polaroid--back"></span>
               <span class="world__polaroid world__polaroid--front"></span>
             </span>
-            <h3 class="world__title">dedicated to you</h3>
-            <p class="world__text"> small notes from our corner of the internet.</p>
-            <span class="world__go" aria-hidden="true">Turn the pages &rarr;</span>
+            <h3 class="world__title" data-i18n="worldScrapTitle">dedicado a ti</h3>
+            <p class="world__text" data-i18n="worldScrapText"> notas pequeñas desde nuestro rincón de internet.</p>
+            <span class="world__go" aria-hidden="true" data-i18n="worldScrapGo">Pasa las páginas &rarr;</span>
           </a>
         </li>
         <li data-reveal>
@@ -193,9 +200,9 @@
                 <span class="world__flame"></span>
               </span>
             </span>
-            <h3 class="world__title">Birthday Cake</h3>
-            <p class="world__text">Light the candles, close your eyes, make the wish properly.</p>
-            <span class="world__go" aria-hidden="true">Light it up &rarr;</span>
+            <h3 class="world__title" data-i18n="worldCakeTitle">Torta de Cumpleaños</h3>
+            <p class="world__text" data-i18n="worldCakeText">Prende las velas, cierra los ojos, pide el deseo como se debe.</p>
+            <span class="world__go" aria-hidden="true" data-i18n="worldCakeGo">Préndela &rarr;</span>
           </a>
         </li>
         <li data-reveal>
@@ -203,9 +210,9 @@
             <span class="world__art" aria-hidden="true">
               <span class="world__gift"><span class="world__gift-bow"></span></span>
             </span>
-            <h3 class="world__title">Final Surprise</h3>
-            <p class="world__text">Save this one for last. It is the whole reason this page exists.</p>
-            <span class="world__go" aria-hidden="true">Only at the end &rarr;</span>
+            <h3 class="world__title" data-i18n="worldFinaleTitle">Sorpresa Final</h3>
+            <p class="world__text" data-i18n="worldFinaleText">Deja esta de última. Es la razón entera por la que existe esta página.</p>
+            <span class="world__go" aria-hidden="true" data-i18n="worldFinaleGo">Solo al final &rarr;</span>
           </a>
         </li>
       </ul>
@@ -219,9 +226,9 @@
   <section class="section section--letters" id="letters" aria-labelledby="lettersTitle">
     <div class="container">
       <header class="section__head" data-reveal>
-        <p class="eyebrow">Section one</p>
-        <h2 class="section__title" id="lettersTitle">Secret Letters</h2>
-        <p class="section__lede">Little envelopes for little moments. Open the one that matches your day &mdash; they stay here for whenever you come back.</p>
+        <p class="eyebrow" data-i18n="s1Eyebrow">Sección uno</p>
+        <h2 class="section__title" id="lettersTitle" data-i18n="lettersTitle">Cartas Secretas</h2>
+        <p class="section__lede" data-i18n="lettersLede">Sobres pequeños para momentos pequeños. Abre el que combine con tu día &mdash; se quedan aquí para cuando vuelvas.</p>
       </header>
 
       <!-- Envelopes are built from CONFIG.letters in script.js -->
@@ -238,9 +245,9 @@
   <section class="section section--scrapbook" id="scrapbook" aria-labelledby="scrapbookTitle">
     <div class="container">
       <header class="section__head" data-reveal>
-        <p class="eyebrow">Section two</p>
-        <h2 class="section__title" id="scrapbookTitle">Dedicated to You</h2>
-        <p class="section__lede">Things Dedicated to You &mdash; Some GIFs, some facts, and one dancing chicken. All officially approved. Tap a photo to see it bigger.</p>
+        <p class="eyebrow" data-i18n="s2Eyebrow">Sección dos</p>
+        <h2 class="section__title" id="scrapbookTitle" data-i18n="scrapbookTitle">Dedicado a Ti</h2>
+        <p class="section__lede" data-i18n="scrapbookLede">Cosas dedicadas a ti &mdash; unos GIFs, unos datos, y un pollo bailando. Todo oficialmente aprobado. Dale un toque a una foto para verla más grande.</p>
       </header>
 
       <!-- Cards are built from CONFIG.scrapbook in script.js -->
@@ -257,9 +264,9 @@
   <section class="section section--sorry" id="sorry" aria-labelledby="sorryTitle">
     <div class="container container--narrow">
       <header class="section__head" data-reveal>
-        <p class="eyebrow">Section three</p>
-        <h2 class="section__title" id="sorryTitle">A Card That Says Sorry</h2>
-        <p class="section__lede">Some things don&rsquo;t fit in a scrapbook. This one came in a plastic sleeve &mdash; go on, open it.</p>
+        <p class="eyebrow" data-i18n="s3Eyebrow">Sección tres</p>
+        <h2 class="section__title" id="sorryTitle" data-i18n="sorryTitle">Una Tarjeta Que Dice Perdón</h2>
+        <p class="section__lede" data-i18n="sorryLede">Algunas cosas no caben en un álbum. Esta vino en una bolsita de plástico &mdash; dale, ábrela.</p>
       </header>
 
       <!-- Built from CONFIG.sorry in script.js -->
@@ -274,9 +281,9 @@
   <section class="section section--cake" id="cake" aria-labelledby="cakeTitle">
     <div class="container container--narrow">
       <header class="section__head" data-reveal>
-        <p class="eyebrow">Section four</p>
-        <h2 class="section__title" id="cakeTitle">Your Birthday Cake</h2>
-        <p class="section__lede">No one else gets a slice until you have had yours.</p>
+        <p class="eyebrow" data-i18n="s4Eyebrow">Sección cuatro</p>
+        <h2 class="section__title" id="cakeTitle" data-i18n="cakeTitle">Tu Torta de Cumpleaños</h2>
+        <p class="section__lede" data-i18n="cakeLede">Nadie más agarra un pedazo hasta que tú agarres el tuyo.</p>
       </header>
 
       <div class="cake-stage" data-reveal>
@@ -311,11 +318,11 @@
           <span class="cake__plate" aria-hidden="true"></span>
         </button>
 
-        <p class="cake__hint" id="cakeHint">Tap the cake to light the candles</p>
+        <p class="cake__hint" id="cakeHint" data-i18n="cakeHint">Dale un toque a la torta para prender las velas</p>
 
         <div class="cake__actions">
-          <button class="btn btn--primary" id="wishBtn" type="button" disabled>Make a Wish</button>
-          <button class="btn btn--ghost" id="relightBtn" type="button" hidden>Light them again</button>
+          <button class="btn btn--primary" id="wishBtn" type="button" disabled data-i18n="wishBtn">Pide un deseo</button>
+          <button class="btn btn--ghost" id="relightBtn" type="button" hidden data-i18n="relightBtn">Préndelas otra vez</button>
         </div>
 
         <p class="cake__wish" id="wishMessage" aria-live="polite"></p>
@@ -330,17 +337,17 @@
   <section class="section section--adventure" id="adventure" aria-labelledby="adventureTitle">
     <div class="container">
       <header class="section__head" data-reveal>
-        <p class="eyebrow">Section five</p>
-        <h2 class="section__title" id="adventureTitle">Mini Birthday Adventure</h2>
-        <p class="section__lede">Five small things to play with. All of them actually work &mdash; go on, test them. One of them should not be touched.</p>
+        <p class="eyebrow" data-i18n="s5Eyebrow">Sección cinco</p>
+        <h2 class="section__title" id="adventureTitle" data-i18n="adventureTitle">Mini Aventura de Cumpleaños</h2>
+        <p class="section__lede" data-i18n="adventureLede">Cinco cositas para jugar. Todas funcionan de verdad &mdash; dale, pruébalas. Una de ellas no se debe tocar.</p>
       </header>
 
       <div class="adventure">
 
         <!-- Quiz -->
         <article class="card card--quiz" data-reveal aria-labelledby="quizHeading">
-          <p class="card__kicker">Game one</p>
-          <h3 class="card__title" id="quizHeading">The Birthday Quiz</h3>
+          <p class="card__kicker" data-i18n="g1Kicker">Juego uno</p>
+          <h3 class="card__title" id="quizHeading" data-i18n="quizHeading">El Quiz de Cumpleaños</h3>
 
           <div class="quiz" id="quizCard">
             <p class="quiz__progress" id="quizProgress"></p>
@@ -352,68 +359,68 @@
           <div class="quiz__result" id="quizResult" hidden>
             <p class="quiz__score" id="quizScore"></p>
             <p class="quiz__verdict" id="quizVerdict"></p>
-            <button class="btn btn--ghost" id="quizRetry" type="button">Play again</button>
+            <button class="btn btn--ghost" id="quizRetry" type="button" data-i18n="quizRetry">Jugar otra vez</button>
           </div>
         </article>
 
         <!-- Compliment generator -->
         <article class="card card--compliment" data-reveal aria-labelledby="complimentHeading">
-          <p class="card__kicker">Game two</p>
-          <h3 class="card__title" id="complimentHeading">Compliment Machine</h3>
+          <p class="card__kicker" data-i18n="g2Kicker">Juego dos</p>
+          <h3 class="card__title" id="complimentHeading" data-i18n="complimentHeading">Máquina de Cumplidos</h3>
           <blockquote class="compliment">
             <span class="compliment__mark" aria-hidden="true">&ldquo;</span>
-            <p class="compliment__text" id="complimentText" aria-live="polite">Press the button. It only tells the truth.</p>
+            <p class="compliment__text" id="complimentText" aria-live="polite" data-i18n="complimentIdle">Presiona el botón. Solo dice la verdad.</p>
           </blockquote>
-          <button class="btn btn--primary btn--sm" id="complimentBtn" type="button">Tell me something nice ♡</button>
+          <button class="btn btn--primary btn--sm" id="complimentBtn" type="button" data-i18n="complimentBtn">Dime algo bonito ♡</button>
         </article>
 
         <!-- Scratch card -->
         <article class="card card--scratch" data-reveal aria-labelledby="scratchHeading">
-          <p class="card__kicker">Game three</p>
-          <h3 class="card__title" id="scratchHeading">Surprise Scratch Card</h3>
+          <p class="card__kicker" data-i18n="g3Kicker">Juego tres</p>
+          <h3 class="card__title" id="scratchHeading" data-i18n="scratchHeading">Tarjeta Raspadita Sorpresa</h3>
 
           <div class="scratch" id="scratchWrap">
             <p class="scratch__message" id="scratchMessage"></p>
-            <canvas class="scratch__canvas" id="scratchCanvas" role="img" aria-label="A scratch card hiding a message"></canvas>
+            <canvas class="scratch__canvas" id="scratchCanvas" role="img" data-i18n-aria="scratchCanvasAria" aria-label="Una tarjeta de raspar escondiendo un mensaje"></canvas>
           </div>
 
-          <p class="scratch__hint" id="scratchHint" aria-live="polite">Scratch with your finger or mouse</p>
+          <p class="scratch__hint" id="scratchHint" aria-live="polite" data-i18n="scratchHint">Raspa con el dedo o el mouse</p>
           <div class="card__row">
-            <button class="btn btn--ghost btn--sm" id="scratchReveal" type="button">Reveal it for me</button>
-            <button class="btn btn--primary btn--sm" id="scratchNew" type="button">New card</button>
+            <button class="btn btn--ghost btn--sm" id="scratchReveal" type="button" data-i18n="scratchReveal">Revélamela</button>
+            <button class="btn btn--primary btn--sm" id="scratchNew" type="button" data-i18n="scratchNew">Tarjeta nueva</button>
           </div>
         </article>
 
         <!-- Mini-game -->
         <article class="card card--game" data-reveal aria-labelledby="gameHeading">
-          <p class="card__kicker">Game four</p>
-          <h3 class="card__title" id="gameHeading">Catch the Falling Hearts</h3>
+          <p class="card__kicker" data-i18n="g4Kicker">Juego cuatro</p>
+          <h3 class="card__title" id="gameHeading" data-i18n="gameHeading">Atrapa los Corazones</h3>
 
           <div class="game">
             <div class="game__hud">
-              <span>Caught <b id="gameScore">0</b></span>
-              <span>Time <b id="gameTime">30</b>s</span>
-              <span>Best <b id="gameBest">0</b></span>
+              <span><span data-i18n="gameCaught">Atrapados</span> <b id="gameScore">0</b></span>
+              <span><span data-i18n="gameTimeLabel">Tiempo</span> <b id="gameTime">30</b>s</span>
+              <span><span data-i18n="gameBest">Mejor</span> <b id="gameBest">0</b></span>
             </div>
             <div class="game__frame">
-              <canvas id="gameCanvas" tabindex="0" aria-label="Move the basket to catch falling hearts. Use the left and right arrow keys, or drag."></canvas>
+              <canvas id="gameCanvas" tabindex="0" data-i18n-aria="gameCanvasAria" aria-label="Mueve la cesta para atrapar los corazones que caen. Usa las flechas izquierda y derecha, o arrastra."></canvas>
               <div class="game__overlay" id="gameOverlay">
-                <p class="game__overlay-text" id="gameOverlayText">Catch <b data-game-target></b> hearts in 30 seconds.</p>
-                <button class="btn btn--primary btn--sm" id="gameStart" type="button">Start</button>
+                <p class="game__overlay-text" id="gameOverlayText" data-i18n-html="gameOverlayHtml">Atrapa <b data-game-target></b> corazones en 30 segundos.</p>
+                <button class="btn btn--primary btn--sm" id="gameStart" type="button" data-i18n="gameStart">Empezar</button>
               </div>
             </div>
-            <p class="game__note">Drag with your finger, move the mouse, or use &larr; &rarr;</p>
+            <p class="game__note" data-i18n="gameNote">Arrastra con el dedo, mueve el mouse, o usa &larr; &rarr;</p>
           </div>
         </article>
 
         <!-- The forbidden button -->
         <article class="card card--forbidden" data-reveal aria-labelledby="forbiddenHeading">
-          <p class="card__kicker">Game five</p>
-          <h3 class="card__title" id="forbiddenHeading">Do Not Press This</h3>
+          <p class="card__kicker" data-i18n="g5Kicker">Juego cinco</p>
+          <h3 class="card__title" id="forbiddenHeading" data-i18n="forbiddenHeading">No Presiones Esto</h3>
 
           <div class="forbidden" id="forbiddenZone">
-            <button class="forbidden__btn" id="forbiddenBtn" type="button">Do not press</button>
-            <p class="forbidden__status" id="forbiddenStatus" aria-live="polite">Seriously. Leave it.</p>
+            <button class="forbidden__btn" id="forbiddenBtn" type="button" data-i18n="forbiddenBtn">No presionar</button>
+            <p class="forbidden__status" id="forbiddenStatus" aria-live="polite" data-i18n="forbiddenStatus">En serio. Déjalo quieto.</p>
           </div>
 
           <div class="loader" id="forbiddenLoader" hidden>
@@ -437,9 +444,9 @@
 
     <div class="container container--narrow">
       <header class="section__head section__head--light" data-reveal>
-        <p class="eyebrow eyebrow--light">The last stop</p>
-        <h2 class="section__title" id="finaleTitle">One Final Surprise</h2>
-        <p class="section__lede">You made it to the end, which means you now have to read the bit I spent the longest on.</p>
+        <p class="eyebrow eyebrow--light" data-i18n="finaleEyebrow">La última parada</p>
+        <h2 class="section__title" id="finaleTitle" data-i18n="finaleTitle">Una Sorpresa Final</h2>
+        <p class="section__lede" data-i18n="finaleLede">Llegaste hasta el final, lo que significa que ahora te toca leer la parte en la que más me tardé.</p>
       </header>
 
       <!-- Closed state: a sealed envelope you click -->
@@ -456,14 +463,14 @@
 
       <!-- Opened state: the letter (filled from CONFIG.finale) -->
       <article class="final-letter" id="finaleLetter" hidden aria-live="polite">
-        <p class="final-letter__to">To <span data-friend-name>friend</span>,</p>
+        <p class="final-letter__to" data-i18n-name="finaleTo">Para ti,</p>
         <div class="final-letter__body" id="finaleBody"></div>
         <p class="final-letter__close" id="finaleClosing"></p>
         <p class="final-letter__sign" id="finaleSign"></p>
 
         <!-- The dedicated song. Hidden entirely if CONFIG.finale.song is removed. -->
         <section class="dedication" id="dedication" aria-labelledby="dedicationHeading" hidden>
-          <p class="dedication__kicker" id="dedicationHeading">And one more thing &mdash; a song for you</p>
+          <p class="dedication__kicker" id="dedicationHeading" data-i18n="dedicationHeading">Y una cosa más &mdash; una canción para ti</p>
 
           <!-- Streaming embed. Used instead of the record when
                CONFIG.finale.song.embed is set. -->
@@ -471,7 +478,7 @@
 
           <div class="dedication__row" id="dedicationRow">
             <button class="dedication__disc" id="dedicationPlay" type="button" aria-pressed="false">
-              <span class="sr-only" id="dedicationLabel">Play the song</span>
+              <span class="sr-only" id="dedicationLabel" data-i18n="dedicationLabel">Reproducir la canción</span>
               <span class="dedication__vinyl" aria-hidden="true"><span class="dedication__hole"></span></span>
               <svg class="dedication__ico dedication__ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5l10 6.5-10 6.5z" fill="currentColor"/></svg>
               <svg class="dedication__ico dedication__ico--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.5h3.5v13H8.5zM13 5.5h3.5v13H13z" fill="currentColor"/></svg>
@@ -488,8 +495,8 @@
         </section>
 
         <div class="final-letter__actions">
-          <button class="btn btn--primary btn--sm" id="finaleHearts" type="button">Send some hearts back ♡</button>
-          <button class="btn btn--ghost btn--sm" id="replayBtn" type="button">Start the day over</button>
+          <button class="btn btn--primary btn--sm" id="finaleHearts" type="button" data-i18n="finaleHearts">Devuélvele unos corazones ♡</button>
+          <button class="btn btn--ghost btn--sm" id="replayBtn" type="button" data-i18n="replayBtn">Empezar el día otra vez</button>
         </div>
       </article>
     </div>
@@ -497,7 +504,7 @@
 
 
   <footer class="footer">
-    <p class="footer__line">Built with an unreasonable number of CSS animations, from one corner of the internet to another.</p>
+    <p class="footer__line" data-i18n="footerLine">Hecho con un número poco razonable de animaciones CSS, desde un rincón de internet hasta otro.</p>
     <p class="footer__sign" data-your-name></p>
   </footer>
 
@@ -510,7 +517,7 @@
 <div class="modal" id="modal" hidden>
   <div class="modal__backdrop" data-modal-close></div>
   <div class="modal__panel" id="modalPanel" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
-    <button class="modal__close" id="modalClose" type="button" aria-label="Close">
+    <button class="modal__close" id="modalClose" type="button" data-i18n-aria="modalCloseAria" aria-label="Cerrar">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
     </button>
     <div class="modal__body" id="modalBody"></div>
@@ -521,7 +528,7 @@
 <!-- ====================================================================
      ACHIEVEMENTS — floating tray button + the unlock toasts
      ==================================================================== -->
-<button class="trophy" id="trophyBtn" type="button" aria-label="Show your achievements">
+<button class="trophy" id="trophyBtn" type="button" data-i18n-aria="trophyAria" aria-label="Muestra tus logros">
   <span aria-hidden="true">🏆</span>
   <span class="trophy__count" id="trophyCount" hidden>0</span>
 </button>
@@ -538,7 +545,7 @@
   <div class="lyrics" id="lyricsPane" hidden>
     <div class="lyrics__head">
       <p class="lyrics__title" id="lyricsTitle"></p>
-      <button class="lyrics__close" id="lyricsClose" type="button" aria-label="Hide the lyrics">
+      <button class="lyrics__close" id="lyricsClose" type="button" data-i18n-aria="lyricsCloseAria" aria-label="Ocultar la letra">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="1.9" fill="none" stroke-linecap="round"/></svg>
       </button>
     </div>
@@ -546,32 +553,32 @@
   </div>
 
   <div class="player__panel" id="musicPanel" hidden>
-    <p class="player__title" id="musicTitle">Birthday song</p>
+    <p class="player__title" id="musicTitle" data-i18n="musicTitle">Canción de cumpleaños</p>
     <p class="player__count" id="musicCount" hidden></p>
-    <input class="player__range player__seek" id="seek" type="range" min="0" max="100" step="0.1" value="0" aria-label="Seek through the song">
+    <input class="player__range player__seek" id="seek" type="range" min="0" max="100" step="0.1" value="0" data-i18n-aria="seekAria" aria-label="Avanzar en la canción">
     <p class="player__time"><span id="musicTime">0:00</span> <span aria-hidden="true">/</span> <span id="musicDur">0:00</span></p>
     <label class="player__vol">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h3l4-3v12l-4-3H4zM15.5 9.5a3.5 3.5 0 010 5M18 7a7 7 0 010 10" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <input class="player__range" id="volume" type="range" min="0" max="100" value="55" aria-label="Volume">
+      <input class="player__range" id="volume" type="range" min="0" max="100" value="55" data-i18n-aria="volumeAria" aria-label="Volumen">
     </label>
     <p class="player__note" id="musicNote" hidden></p>
   </div>
 
   <div class="player__bar">
-    <button class="player__skip" id="musicPrev" type="button" aria-label="Previous song" hidden>
+    <button class="player__skip" id="musicPrev" type="button" data-i18n-aria="prevAria" aria-label="Canción anterior" hidden>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 6v12L8 12zM7 6v12" stroke="currentColor" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-    <button class="player__disc" id="musicToggle" type="button" aria-pressed="false" aria-label="Play the birthday song">
+    <button class="player__disc" id="musicToggle" type="button" aria-pressed="false" data-i18n-aria="musicToggleAria" aria-label="Reproducir la canción de cumpleaños">
       <svg class="player__ico player__ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5l11 6.5-11 6.5z" fill="currentColor"/></svg>
       <svg class="player__ico player__ico--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.5h3v13h-3zM12.5 5.5h3v13h-3z" fill="currentColor"/></svg>
     </button>
-    <button class="player__skip" id="musicNext" type="button" aria-label="Next song" hidden>
+    <button class="player__skip" id="musicNext" type="button" data-i18n-aria="nextAria" aria-label="Canción siguiente" hidden>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 6v12L16 12zM17 6v12" stroke="currentColor" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-    <button class="player__skip player__lyrics" id="lyricsToggle" type="button" aria-expanded="false" aria-controls="lyricsPane" aria-label="Show the lyrics" hidden>
+    <button class="player__skip player__lyrics" id="lyricsToggle" type="button" aria-expanded="false" aria-controls="lyricsPane" data-i18n-aria="lyricsToggleAria" aria-label="Mostrar la letra" hidden>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5h11M5 11h14M5 15.5h9M5 20h12" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
     </button>
-    <button class="player__expand" id="musicExpand" type="button" aria-expanded="false" aria-controls="musicPanel" aria-label="Show music controls">
+    <button class="player__expand" id="musicExpand" type="button" aria-expanded="false" aria-controls="musicPanel" data-i18n-aria="expandAria" aria-label="Mostrar los controles de música">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V7.5l9-2V16M9 18a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM18 16a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
     </button>
   </div>
@@ -584,6 +591,7 @@
 
 <!-- Optional. Written by lyrics-timer.html; harmless if it is not there. -->
 <script src="lyrics.js"></script>
+<script src="i18n.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
