@@ -732,7 +732,7 @@ body.is-intro .nav { transform: translateY(-101%); opacity: 0; pointer-events: n
   color: var(--plum);
   white-space: nowrap;
 }
-.nav__list { display: flex; gap: 4px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.nav__list { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
 .nav__list::-webkit-scrollbar { display: none; }
 
 .nav__link {
@@ -747,39 +747,6 @@ body.is-intro .nav { transform: translateY(-101%); opacity: 0; pointer-events: n
 .nav__link:hover { color: var(--rose); background: var(--blush); }
 .nav__link.is-active { color: var(--white); background: var(--pink-deep); }
 
-/* ---- the ES / EN switch, sat at the end of the nav ---------- */
-.nav__lang { display: flex; align-items: center; flex: 0 0 auto; margin-left: 6px; }
-
-.lang {
-  display: flex;
-  gap: 2px;
-  padding: 3px;
-  border-radius: var(--r-pill);
-  background: var(--blush);
-}
-
-.lang__btn {
-  padding: 5px 11px;
-  border: 0;
-  border-radius: var(--r-pill);
-  background: transparent;
-  font: inherit;
-  font-size: .76rem; font-weight: 700; letter-spacing: .04em;
-  color: var(--ink-soft);
-  cursor: pointer;
-  transition: background .25s, color .25s;
-}
-.lang__btn:hover { color: var(--rose); }
-.lang__btn.is-on {
-  background: var(--white);
-  color: var(--rose);
-  box-shadow: 0 1px 3px rgba(36, 53, 63, .12);
-}
-.lang__btn:focus-visible { outline: 2px solid var(--rose); outline-offset: 2px; }
-
-@media (max-width: 560px) {
-  .nav__lang { margin-left: 2px; }
-  .lang__btn { padding: 5px 8px; font-size: .72rem; }
 }
 
 

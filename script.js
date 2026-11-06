@@ -41,13 +41,10 @@ function formatTime(sec) {
 /* ============================================================
    LANGUAGE — paint the fixed labels, wire the ES/EN switch
    ============================================================ */
-const SKIP_KEY = "birthday-skip-intro";
-const POS_KEY  = "birthday-last-section";
-
 /* Every bit of text that sits in index.html rather than in CONFIG.
    Runs first, before any section reads an element back. */
 function applyStaticI18n() {
-  document.documentElement.lang = LANG;
+  document.documentElement.lang = "es";
   if (UI.pageTitle) document.title = UI.pageTitle;
 
   $$("[data-i18n]").forEach((el) => {
@@ -68,60 +65,6 @@ function applyStaticI18n() {
     if (v != null) el.textContent = fmt(v, { name: CONFIG.friendName });
   });
 }
-
-/* The whole page is built from CONFIG once, and the canvases, timers and
-   audio are wired once. Reloading is the honest way to change language -
-   so remember where they were and put them back after the reload. */
-function initLang() {
-  $$(".lang__btn").forEach((btn) => {
-    const code = btn.getAttribute("data-lang");
-    const on = code === LANG;
-    btn.classList.toggle("is-on", on);
-    btn.setAttribute("aria-pressed", on ? "true" : "false");
-
-    btn.addEventListener("click", () => {
-      if (code === LANG) return;
-      try {
-        localStorage.setItem(LANG_KEY, code);
-        if (!document.body.classList.contains("is-intro")) {
-          sessionStorage.setItem(SKIP_KEY, "1");
-          sessionStorage.setItem(POS_KEY, currentSectionId());
-        }
-      } catch (err) { /* blocked storage - the reload still works */ }
-      location.reload();
-    });
-  });
-}
-
-function currentSectionId() {
-  const secs = $$("main .section");
-  let best = "", bestTop = Infinity;
-  secs.forEach((sec) => {
-    const top = Math.abs(sec.getBoundingClientRect().top);
-    if (top < bestTop) { bestTop = top; best = sec.id || ""; }
-  });
-  return best;
-}
-
-/* Came back from a language switch? Skip the candles and the gift box. */
-function resumeAfterLang() {
-  let skip = false, where = "";
-  try {
-    skip = sessionStorage.getItem(SKIP_KEY) === "1";
-    where = sessionStorage.getItem(POS_KEY) || "";
-    sessionStorage.removeItem(SKIP_KEY);
-    sessionStorage.removeItem(POS_KEY);
-  } catch (err) { return; }
-  if (!skip) return;
-
-  document.body.classList.remove("is-intro");
-  const welcome = $("#welcome");
-  if (welcome) welcome.classList.add("is-done");
-
-  const target = where && $("#" + where);
-  if (target) target.scrollIntoView({ behavior: "auto" });
-}
-
 
 function fillNames() {
   $$("[data-friend-name]").forEach((el) => { el.textContent = CONFIG.friendName; });
@@ -587,7 +530,6 @@ const Modal = (() => {
 function boot() {
   const steps = [
     ["i18n",        applyStaticI18n],
-    ["lang",        initLang],
     ["names",       fillNames],
     ["welcome",     initWelcome],
     ["nav",         initNavAndReveal],
@@ -604,8 +546,7 @@ function boot() {
     ["music",       initMusic],
     ["dedication",  initDedication],
     ["lyrics",      initLyrics],
-    ["trophies",    initTrophies],
-    ["resume",      resumeAfterLang]
+    ["trophies",    initTrophies]
   ];
 
   steps.forEach(([name, fn]) => {
@@ -867,7 +808,7 @@ function initSorry() {
   const closeBtn = document.createElement("button");
   closeBtn.type = "button";
   closeBtn.className = "sorry__btn sorry__btn--ghost";
-  closeBtn.textContent = "close the card";
+  closeBtn.textContent = TXT.closeCard;
 
   actions.appendChild(biggerBtn);
   actions.appendChild(closeBtn);
